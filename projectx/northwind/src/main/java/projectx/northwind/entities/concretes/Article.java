@@ -6,24 +6,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="passport")
+@Table(name = "article")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Passport {
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name="mail")
-    private String mail;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name="password_hash")
-    private String passwordHash;
+    @Column(name = "body")
+    private String body;
 
-    @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)//if passport delete then user delete automatic
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
 }
