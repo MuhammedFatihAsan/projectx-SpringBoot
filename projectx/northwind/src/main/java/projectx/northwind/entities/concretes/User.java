@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"") // "user" is a reserved keyword
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

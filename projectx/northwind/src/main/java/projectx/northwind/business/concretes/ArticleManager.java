@@ -1,0 +1,89 @@
+package projectx.northwind.business.concretes;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import projectx.northwind.business.abstracts.ArticleService;
+import projectx.northwind.core.utilities.results.DataResult;
+import projectx.northwind.core.utilities.results.Result;
+import projectx.northwind.core.utilities.results.SuccessDataResult;
+import projectx.northwind.core.utilities.results.SuccessResult;
+import projectx.northwind.dataAccess.abstracts.ArticleDao;
+import projectx.northwind.entities.concretes.Article;
+import java.util.List;
+
+@Service
+public class ArticleManager implements ArticleService {
+
+    private ArticleDao articleDao;
+
+    @Autowired
+    public ArticleManager(ArticleDao articleDao) {
+        this.articleDao = articleDao;
+    }
+
+    @Override
+    public DataResult<List<Article>> getAll() {
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.findAll(), "Data listed");
+    }
+
+    @Override
+    public Result add(Article article) {
+
+        this.articleDao.save(article);
+        return new SuccessResult("Article added!");
+    }
+
+    @Override
+    public DataResult<Article> getByTitle(String title) {
+
+        return new SuccessDataResult<Article>
+                (this.articleDao.getByTitle(title), "Data listed");
+    }
+
+    @Override
+    public DataResult<Article> getByTitleAndUser(String title, int user_id) {
+
+        //business codes
+
+        return new SuccessDataResult<Article>
+                (this.articleDao.getByTitleAndUser(title, user_id), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getByTitleOrUser(String title, int user_id) {
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.getByTitleOrUser(title, user_id), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getByUserIn(List<Integer> users) {
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.getByUserIn(users), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getByTitleContains(String title) {
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.getByTitleContains(title), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getByTitleStartsWith(String title) {
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.getByTitleStartsWith(title), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getByNameAndUser(String title, int user_id) {
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.getByNameAndUser(title, user_id), "Data listed");
+    }
+
+}
