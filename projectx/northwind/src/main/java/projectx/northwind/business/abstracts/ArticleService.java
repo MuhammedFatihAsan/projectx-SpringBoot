@@ -1,6 +1,5 @@
 package projectx.northwind.business.abstracts;
 
-import org.springframework.data.jpa.repository.Query;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.concretes.Article;
@@ -14,11 +13,11 @@ public interface ArticleService {
 
     DataResult<Article> getByTitle(String title);
 
-    DataResult<Article> getByTitleAndUser(String title, int user_id);
+    DataResult<Article> getByTitleAndUser_Id(String title, int user_id);
 
-    DataResult<List<Article>> getByTitleOrUser(String title, int user_id);
+    DataResult<List<Article>> getByTitleOrUser_Id(String title, int user_id);
 
-    DataResult<List<Article>> getByUserIn(List<Integer> users);
+    DataResult<List<Article>> getByUser_IdIn(List<Integer> users);
 
     DataResult<List<Article>> getByTitleContains(String title);
 

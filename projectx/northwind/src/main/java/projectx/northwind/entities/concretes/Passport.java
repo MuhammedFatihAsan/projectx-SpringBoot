@@ -1,5 +1,6 @@
 package projectx.northwind.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "user"}) // Prevent recursive JSON output
 public class Passport {
 
     @Id
@@ -24,6 +26,7 @@ public class Passport {
     private String passwordHash;
 
     @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)//if passport delete then user delete automatic
+//    @JsonBackReference // bu taraf JSON'a yazılmasın
     private User user;
 
 }

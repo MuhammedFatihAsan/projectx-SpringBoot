@@ -25,6 +25,7 @@ public class Article {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+//    @JsonManagedReference // bu taraf JSON'a yazılsın
     private User user;
 
 }
