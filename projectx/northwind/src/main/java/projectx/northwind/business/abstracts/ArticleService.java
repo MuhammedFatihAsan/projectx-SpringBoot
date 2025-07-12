@@ -9,6 +9,12 @@ public interface ArticleService {
 
     DataResult<List<Article>> getAll();
 
+    DataResult<List<Article>> getAll(int pageNo, int pageSize);
+
+    DataResult<List<Article>> getAllSortedDesc();
+
+    DataResult<List<Article>> getAllSortedAsc();
+
     Result add(Article article);
 
     DataResult<Article> getByTitle(String title);

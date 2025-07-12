@@ -1,6 +1,9 @@
 package projectx.northwind.business.concretes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.utilities.results.DataResult;
@@ -9,6 +12,7 @@ import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.dataAccess.abstracts.ArticleDao;
 import projectx.northwind.entities.concretes.Article;
+
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class ArticleManager implements ArticleService {
 
     @Autowired
     public ArticleManager(ArticleDao articleDao) {
+
         this.articleDao = articleDao;
     }
 
@@ -27,6 +32,33 @@ public class ArticleManager implements ArticleService {
 
         return new SuccessDataResult<List<Article>>
                 (this.articleDao.findAll(), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getAll(int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);//-1 because it starts pagination from number 0
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.findAll(pageable).getContent(), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getAllSortedDesc() {
+
+        Sort sort = Sort.by(Sort.Direction.DESC,"title");
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.findAll(sort), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<Article>> getAllSortedAsc() {
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "title");
+
+        return new SuccessDataResult<List<Article>>
+                (this.articleDao.findAll(sort), "Data listed");
     }
 
     @Override

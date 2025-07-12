@@ -20,10 +20,28 @@ public class ArticlesController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public DataResult<List<Article>> getAll(){
 
         return this.articleService.getAll();
+    }
+
+    @GetMapping("/getAllByPage")
+    public DataResult<List<Article>> getAll(int pageNo, int pageSize){
+
+        return this.articleService.getAll(pageNo, pageSize);
+    }
+
+    @GetMapping("/getAllDesc")
+    public DataResult<List<Article>> getAllSortedDesc(){
+
+        return this.articleService.getAllSortedDesc();
+    }
+
+    @GetMapping("/getAllAsc")
+    public DataResult<List<Article>> getAllSortedAsc(){
+
+        return this.articleService.getAllSortedAsc();
     }
 
     @PostMapping("/add")
