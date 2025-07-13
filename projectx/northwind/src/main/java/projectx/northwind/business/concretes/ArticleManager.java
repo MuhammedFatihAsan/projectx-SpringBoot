@@ -12,6 +12,7 @@ import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.dataAccess.abstracts.ArticleDao;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.dtos.ArticleWithUserDto;
 
 
 import java.util.List;
@@ -117,6 +118,13 @@ public class ArticleManager implements ArticleService {
 
         return new SuccessDataResult<List<Article>>
                 (this.articleDao.getByNameAndUser(title, user_id), "Data listed");
+    }
+
+    @Override
+    public DataResult<List<ArticleWithUserDto>> getArticleWithUser() {
+
+        return new SuccessDataResult<List<ArticleWithUserDto>>
+                (this.articleDao.getArticleWithUser(), "Data listed");
     }
 
 }

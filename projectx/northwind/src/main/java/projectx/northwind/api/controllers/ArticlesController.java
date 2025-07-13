@@ -6,6 +6,8 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.dtos.ArticleWithUserDto;
+
 import java.util.List;
 
 @RestController
@@ -90,6 +92,12 @@ public class ArticlesController {
     public DataResult<List<Article>> getByNameAndUser(@RequestParam String title, @RequestParam int user_id){
 
         return this.articleService.getByNameAndUser(title, user_id);
+    }
+
+    @GetMapping("/getArticleWithUser")
+    public DataResult<List<ArticleWithUserDto>> getArticleWithUser(){
+
+        return this.articleService.getArticleWithUser();
     }
 
 }
