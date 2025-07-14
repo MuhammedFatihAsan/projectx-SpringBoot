@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class ArticleManager implements ArticleService {
 
-    private ArticleDao articleDao;
+    private final ArticleDao articleDao;
 
     @Autowired
     public ArticleManager(ArticleDao articleDao) {

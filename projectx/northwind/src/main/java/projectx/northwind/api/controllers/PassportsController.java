@@ -12,14 +12,14 @@ import java.util.List;
 @RequestMapping("/api/passports")
 public class PassportsController {
 
-    private PassportService passportService;
+    private final PassportService passportService;
 
     @Autowired
     public PassportsController(PassportService passportService) {
         this.passportService = passportService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public DataResult<List<Passport>> getAll(){
 
         return this.passportService.getAll();

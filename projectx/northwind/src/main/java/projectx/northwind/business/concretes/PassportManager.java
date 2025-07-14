@@ -15,10 +15,11 @@ import java.util.List;
 @Service
 public class PassportManager implements PassportService {
 
-    private PassportDao passportDao;
+    private final PassportDao passportDao;
 
     @Autowired
     public PassportManager(PassportDao passportDao) {
+
         this.passportDao = passportDao;
     }
 

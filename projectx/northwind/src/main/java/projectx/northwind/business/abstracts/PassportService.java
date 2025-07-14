@@ -8,6 +8,9 @@ import projectx.northwind.core.utilities.results.Result;
 public interface PassportService {
 
     DataResult<List<Passport>> getAll();
+
     Result add(Passport passport);
+
+
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/articles")
 public class ArticlesController {
 
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @Autowired
     public ArticlesController(ArticleService articleService) {
