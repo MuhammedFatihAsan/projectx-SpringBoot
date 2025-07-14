@@ -5,35 +5,28 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import projectx.northwind.core.entities.User;
-import java.util.List;
 
 @Entity
-@Table(name = "article")
+@Table(name = "comment")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Article {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
-    private String title;
-
     @Column(name = "body")
     private String body;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User articleUser;
+    private User commentUser;
 
-    @OneToMany(mappedBy = "commentArticle")
-    private List<Comment> comments;
-
-    @OneToMany(mappedBy = "categoryArticle")
-    private List<Category> categories;
-
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private Article commentArticle;
 
 }

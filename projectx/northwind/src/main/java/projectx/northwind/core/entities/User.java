@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.concretes.Comment;
 
 import java.util.List;
 
@@ -33,8 +34,11 @@ public class User {
     @JoinColumn(name = "id")
     private Passport passport;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "articleUser", orphanRemoval = true)
     private List<Article> articles;
+
+    @OneToMany(mappedBy = "commentUser", orphanRemoval = true)
+    private List<Comment> comments;
 
 }
 
