@@ -34,7 +34,6 @@ public class Passport {
     private String passwordHash;
 
     @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)//if passport delete then user delete automatic
-//    @JsonBackReference // bu taraf JSON'a yazılmasın
     private User user;
 
 }

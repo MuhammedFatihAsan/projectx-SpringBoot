@@ -5,6 +5,6 @@ import projectx.northwind.core.entities.User;
 
 public interface UserDao extends JpaRepository<User, Integer> {
 
-
+    //User findByMail(String mail);
 
 }

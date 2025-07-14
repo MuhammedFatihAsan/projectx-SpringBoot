@@ -32,11 +32,9 @@ public class User {
     @OneToOne
     @MapsId // user id comes from passport so same the passport id
     @JoinColumn(name = "id")
-    @JsonManagedReference // bu taraf JSON'a yazılsın
     private Passport passport;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-//    @JsonBackReference // bu taraf JSON'a yazılmasın
     private List<Article> articles;
 
 }
