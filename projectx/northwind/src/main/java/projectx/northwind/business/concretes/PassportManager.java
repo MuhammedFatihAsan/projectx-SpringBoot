@@ -3,12 +3,13 @@ package projectx.northwind.business.concretes;
 import org.springframework.beans.factory.annotation.Autowired; // bean -> class proje class'ı
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.PassportService;
+import projectx.northwind.core.dataAccess.PassportDao;
+import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
-import projectx.northwind.dataAccess.abstracts.PassportDao;
-import projectx.northwind.entities.concretes.Passport;
+
 import java.util.List;
 
 @Service

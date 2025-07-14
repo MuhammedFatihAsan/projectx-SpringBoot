@@ -3,9 +3,9 @@ package projectx.northwind.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.PassportService;
+import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
-import projectx.northwind.entities.concretes.Passport;
 import java.util.List;
 
 @RestController

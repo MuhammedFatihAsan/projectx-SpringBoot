@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import projectx.northwind.core.entities.User;
 
 @Entity
 @Table(name = "article")
@@ -25,7 +26,6 @@ public class Article {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-//    @JsonManagedReference // bu taraf JSON'a yazılsın
     private User user;
 
 }

@@ -1,0 +1,10 @@
+package projectx.northwind.core.dataAccess;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import projectx.northwind.core.entities.User;
+
+public interface UserDao extends JpaRepository<User, Integer> {
+
+
+
+}
