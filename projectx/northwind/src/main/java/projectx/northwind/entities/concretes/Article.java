@@ -1,6 +1,8 @@
 package projectx.northwind.entities.concretes;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,9 +22,13 @@ public class Article {
     private int id;
 
     @Column(name = "title")
+    @NotBlank
+    @NotNull
     private String title;
 
     @Column(name = "body")
+    @NotBlank
+    @NotNull
     private String body;
 
     @ManyToOne
@@ -33,7 +39,9 @@ public class Article {
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "categoryArticle")
-    private List<Category> categories;
+    private List<ArticleCategory> articleCategories;
 
+    @OneToMany(mappedBy = "likeArticle")
+    private List<ArticleLike> articleLikes;
 
 }

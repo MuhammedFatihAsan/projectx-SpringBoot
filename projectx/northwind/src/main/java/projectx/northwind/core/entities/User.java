@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.concretes.ArticleLike;
 import projectx.northwind.entities.concretes.Comment;
 
 import java.util.List;
@@ -39,6 +40,9 @@ public class User {
 
     @OneToMany(mappedBy = "commentUser", orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "likeUser",  orphanRemoval = true)
+    private List<ArticleLike>  likedArticles;
 
 }
 

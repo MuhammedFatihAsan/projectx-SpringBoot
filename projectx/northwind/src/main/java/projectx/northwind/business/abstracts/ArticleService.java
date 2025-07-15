@@ -21,11 +21,11 @@ public interface ArticleService {
 
     DataResult<Article> getByTitle(String title);
 
-    DataResult<Article> getByTitleAndUser_Id(String title, int user_id);
+    DataResult<Article> getByTitleAndArticleUser_Id(String title, int user_id);
 
-    DataResult<List<Article>> getByTitleOrUser_Id(String title, int user_id);
+    DataResult<List<Article>> getByTitleOrArticleUser_Id(String title, int user_id);
 
-    DataResult<List<Article>> getByUser_IdIn(List<Integer> users);
+    DataResult<List<Article>> getByArticleUser_IdIn(List<Integer> users);
 
     DataResult<List<Article>> getByTitleContains(String title);
 

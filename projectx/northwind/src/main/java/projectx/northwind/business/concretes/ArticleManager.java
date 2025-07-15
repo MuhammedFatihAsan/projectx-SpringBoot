@@ -77,26 +77,26 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<Article> getByTitleAndUser_Id(String title, int user_id) {
+    public DataResult<Article> getByTitleAndArticleUser_Id(String title, int user_id) {
 
         //business codes
 
         return new SuccessDataResult<Article>
-                (this.articleDao.getByTitleAndUser_Id(title, user_id), "Data listed");
+                (this.articleDao.getByTitleAndArticleUser_Id(title, user_id), "Data listed");
     }
 
     @Override
-    public DataResult<List<Article>> getByTitleOrUser_Id(String title, int user_id) {
+    public DataResult<List<Article>> getByTitleOrArticleUser_Id(String title, int user_id) {
 
         return new SuccessDataResult<List<Article>>
-                (this.articleDao.getByTitleOrUser_Id(title, user_id), "Data listed");
+                (this.articleDao.getByTitleOrArticleUser_Id(title, user_id), "Data listed");
     }
 
     @Override
-    public DataResult<List<Article>> getByUser_IdIn(List<Integer> users) {
+    public DataResult<List<Article>> getByArticleUser_IdIn(List<Integer> users) {
 
         return new SuccessDataResult<List<Article>>
-                (this.articleDao.getByUser_IdIn(users), "Data listed");
+                (this.articleDao.getByArticleUser_IdIn(users), "Data listed");
     }
 
     @Override

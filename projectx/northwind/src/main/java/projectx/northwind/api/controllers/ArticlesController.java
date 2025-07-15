@@ -59,21 +59,21 @@ public class ArticlesController {
     }
 
     @GetMapping("getByTitleAndUser_Id")
-    public DataResult<Article> getByTitleAndUser_Id(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<Article> getByTitleAndArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
 
-        return this.articleService.getByTitleAndUser_Id(title, user_id);
+        return this.articleService.getByTitleAndArticleUser_Id(title, user_id);
     }
 
     @GetMapping("/getByTitleOrUser_Id")
-    public DataResult<List<Article>> getByTitleOrUser_Id(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<List<Article>> getByTitleOrArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
 
-        return this.articleService.getByTitleOrUser_Id(title, user_id);
+        return this.articleService.getByTitleOrArticleUser_Id(title, user_id);
     }
 
     @GetMapping("/getByUserIn")
-    public DataResult<List<Article>> getByUser_IdIn(@RequestParam List<Integer> users){
+    public DataResult<List<Article>> getByArticleUser_IdIn(@RequestParam List<Integer> users){
 
-        return this.articleService.getByUser_IdIn(users);
+        return this.articleService.getByArticleUser_IdIn(users);
     }
 
     @GetMapping("/getByTitleContains")
