@@ -6,7 +6,8 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.concretes.Article;
-import projectx.northwind.entities.dtos.ArticleWithUserDto;
+import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
+import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
 import java.util.List;
 
@@ -22,74 +23,71 @@ public class ArticlesController {
         this.articleService = articleService;
     }
 
+    // =================== RESPONSE METHODS ===================
+    // (Data exporting, DTO returning operations)
+
     @GetMapping("/getAll")
-    public DataResult<List<Article>> getAll(){
+    public DataResult<List<ArticleResponseDto>> getAll(){
 
         return this.articleService.getAll();
     }
 
     @GetMapping("/getAllByPage")
-    public DataResult<List<Article>> getAll(int pageNo, int pageSize){
+    public DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize){
 
         return this.articleService.getAll(pageNo, pageSize);
     }
 
     @GetMapping("/getAllDesc")
-    public DataResult<List<Article>> getAllSortedDesc(){
+    public DataResult<List<ArticleResponseDto>> getAllSortedDesc(){
 
         return this.articleService.getAllSortedDesc();
     }
 
     @GetMapping("/getAllAsc")
-    public DataResult<List<Article>> getAllSortedAsc(){
+    public DataResult<List<ArticleResponseDto>> getAllSortedAsc(){
 
         return this.articleService.getAllSortedAsc();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody Article article){
-
-        return this.articleService.add(article);
-    }
-
     @GetMapping("/getByTitle")
-    public DataResult<Article> getByTitle(@RequestParam String title){
+    public DataResult<ArticleResponseDto> getByTitle(@RequestParam String title){
 
         return this.articleService.getByTitle(title);
     }
 
     @GetMapping("getByTitleAndUser_Id")
-    public DataResult<Article> getByTitleAndArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
 
         return this.articleService.getByTitleAndArticleUser_Id(title, user_id);
     }
 
     @GetMapping("/getByTitleOrUser_Id")
-    public DataResult<List<Article>> getByTitleOrArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
 
         return this.articleService.getByTitleOrArticleUser_Id(title, user_id);
     }
 
     @GetMapping("/getByUserIn")
-    public DataResult<List<Article>> getByArticleUser_IdIn(@RequestParam List<Integer> users){
+    public DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(@RequestParam List<Integer> users){
 
         return this.articleService.getByArticleUser_IdIn(users);
     }
 
     @GetMapping("/getByTitleContains")
-    public DataResult<List<Article>> getByTitleContains(@RequestParam String title){
+    public DataResult<List<ArticleResponseDto>> getByTitleContains(@RequestParam String title){
 
         return this.articleService.getByTitleContains(title);
     }
 
     @GetMapping("/getByTitlesStartsWith")
-    public DataResult<List<Article>> getByTitleStartsWith(@RequestParam String title){
+    public DataResult<List<ArticleResponseDto>> getByTitleStartsWith(@RequestParam String title){
 
         return this.articleService.getByTitleStartsWith(title);
     }
 
     @GetMapping("/getByNameAndUser")
-    public DataResult<List<Article>> getByNameAndUser(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<List<ArticleResponseDto>> getByNameAndUser(@RequestParam String title, @RequestParam int user_id){
 
         return this.articleService.getByNameAndUser(title, user_id);
     }
@@ -98,6 +96,15 @@ public class ArticlesController {
     public DataResult<List<ArticleWithUserDto>> getArticleWithUser(){
 
         return this.articleService.getArticleWithUser();
+    }
+
+    // =================== REQUEST METHODS ===================
+    // (Operations that retrieve, save or modify new data)
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Article article){
+
+        return this.articleService.add(article);
     }
 
 }

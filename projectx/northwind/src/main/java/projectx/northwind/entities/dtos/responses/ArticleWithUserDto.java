@@ -1,4 +1,4 @@
-package projectx.northwind.entities.dtos;
+package projectx.northwind.entities.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

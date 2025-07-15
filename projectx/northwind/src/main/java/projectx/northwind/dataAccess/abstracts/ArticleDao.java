@@ -3,7 +3,8 @@ package projectx.northwind.dataAccess.abstracts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import projectx.northwind.entities.concretes.Article;
-import projectx.northwind.entities.dtos.ArticleWithUserDto;
+import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
+
 import java.util.List;
 
 public interface ArticleDao extends JpaRepository<Article, Integer> {
@@ -24,7 +25,7 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
     List<Article> getByNameAndUser(String title, int user_id);
     // like -> select * from article where title = x and user_id = x
 
-    @Query("Select new projectx.northwind.entities.dtos.ArticleWithUserDto (a.id, a.title, u.name) From User u Inner Join u.articles a")
+    @Query("Select new projectx.northwind.entities.dtos.responses.ArticleWithUserDto (a.id, a.title, u.name) From User u Inner Join u.articles a")
     List<ArticleWithUserDto> getArticleWithUser();
     /* SQL state :
      select a.id, a.title, u.name
@@ -41,6 +42,5 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
      içindeki değişken isimlerini kullanmak zorunludur. Çünkü JPA her zaman Entity sınıfındaki
      değişken isimlerine bakar.
      */
-
 
 }
