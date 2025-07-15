@@ -223,7 +223,7 @@ public class ArticleManager implements ArticleService {
 
         int authorId = newArticleRequest.getAuthorId();
         User author = userDao.findById(authorId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found to add article"));
 
         newArticle.setArticleUser(author);
 
