@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.ArticleService;
+import projectx.northwind.core.dataAccess.UserDao;
+import projectx.northwind.core.entities.User;
 import projectx.northwind.core.mapping.ArticleMapper;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
@@ -13,6 +15,7 @@ import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.dataAccess.abstracts.ArticleDao;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
@@ -24,11 +27,13 @@ import java.util.List;
 public class ArticleManager implements ArticleService {
 
     private final ArticleDao articleDao;
+    private final UserDao userDao;
 
     @Autowired
-    public ArticleManager(ArticleDao articleDao) {
+    public ArticleManager(ArticleDao articleDao,  UserDao userDao) {
 
         this.articleDao = articleDao;
+        this.userDao = userDao;
     }
 
     // =================== RESPONSE METHODS ===================
@@ -202,18 +207,30 @@ public class ArticleManager implements ArticleService {
     @Override
     public DataResult<List<ArticleWithUserDto>> getArticleWithUser() {
 
-        return new SuccessDataResult<List<ArticleWithUserDto>>
-                (this.articleDao.getArticleWithUser(), "Data listed");
+        return new SuccessDataResult<List<ArticleWithUserDto>>(this.articleDao.getArticleWithUser(), "Data listed");
     }
 
     // =================== REQUEST METHODS ===================
     // (Operations that retrieve, save or modify new data)
 
     @Override
-    public Result add(Article article) {
+    public Result add(CreateArticleRequestDto newArticleRequest) {
 
-        this.articleDao.save(article);
+        Article newArticle = new Article();
+
+        newArticle.setTitle(newArticleRequest.getTitle());
+        newArticle.setBody(newArticleRequest.getBody());
+
+        int authorId = newArticleRequest.getAuthorId();
+        User author = userDao.findById(authorId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        newArticle.setArticleUser(author);
+
+        this.articleDao.save(newArticle);
+
         return new SuccessResult("Article added!");
+
     }
 
 }

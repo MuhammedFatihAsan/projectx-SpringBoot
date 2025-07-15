@@ -10,6 +10,8 @@ import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 
+import java.util.Optional;
+
 @Service
 public class UserManager implements UserService {
 
@@ -33,4 +35,5 @@ public class UserManager implements UserService {
 
         return new SuccessDataResult<User>(this.userDao.findByName(name));
     }
+
 }

@@ -6,6 +6,7 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
@@ -102,9 +103,9 @@ public class ArticlesController {
     // (Operations that retrieve, save or modify new data)
 
     @PostMapping("/add")
-    public Result add(@RequestBody Article article){
+    public Result add(@RequestBody CreateArticleRequestDto newArticleRequest){
 
-        return this.articleService.add(article);
+        return this.articleService.add(newArticleRequest);
     }
 
 }

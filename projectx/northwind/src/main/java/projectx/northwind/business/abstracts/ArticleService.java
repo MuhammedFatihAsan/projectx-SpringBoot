@@ -3,6 +3,7 @@ package projectx.northwind.business.abstracts;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.concretes.Article;
+import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
@@ -40,6 +41,6 @@ public interface ArticleService {
     // =================== REQUEST METHODS ===================
     // (Operations that retrieve, save or modify new data)
 
-    Result add(Article article);
+    Result add(CreateArticleRequestDto newArticle);
 
 }
