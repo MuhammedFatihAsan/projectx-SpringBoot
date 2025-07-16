@@ -31,7 +31,11 @@ public class Passport {
     @NotNull
     private String passwordHash;
 
-    @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)//if passport delete then user delete automatic
+    // (tr): Cascade(şelale) = Şelale etkisi gibi düşünebilirsin. Passport üzerinde yapılan işlemler (ekleme, silme),
+    //     ilişkili User'a da otomatik olarak uygulanır. Bir yerde başlar, zincirleme şekilde diğerine yayılır.
+    // (en): Cascade works like a waterfall effect. Any operation on Passport (save, delete)
+    //     is automatically applied to the related User. Starts at one point and flows down to others.
+    @OneToOne(mappedBy = "passport", cascade = CascadeType.ALL)
     private User user;
 
 }

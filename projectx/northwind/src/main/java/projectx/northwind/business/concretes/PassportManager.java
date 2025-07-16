@@ -91,8 +91,9 @@ public class PassportManager implements PassportService {
 
                 newPassport.setUser(newUser);
 
-                // SADECE passport'ı kaydet
-                passportDao.save(newPassport); // User da cascade ile kaydedilir
+                // (tr): Sadece passport kaydedilerek ilişkili user da otomatik kaydedilir (cascade sayesinde)
+                // (en): Only passport is saved, and the related user is also persisted automatically (thanks to cascade)
+                passportDao.save(newPassport);
 
                 return new SuccessResult("Created with the new passport user !");
             }
