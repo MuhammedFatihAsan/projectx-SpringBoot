@@ -75,28 +75,27 @@ public class PassportManager implements PassportService {
     // (Operations that retrieve, save or modify new data)
 
     @Override
-    public Result add(CreatePassportWithUserDto newPassportUser) {
+    public Result add(CreatePassportWithUserDto dto) {
 
-        if(!this.userService.existsByName(newPassportUser.getUserName())){
+        if(!this.userService.existsByName(dto.getUserName())){
 
-            if(!existsByMail(newPassportUser.getMail())){
+            if(!existsByMail(dto.getMail())){
 
                 Passport newPassport = new Passport();
+                newPassport.setMail(dto.getMail());
+                newPassport.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
 
-                newPassport.setMail(newPassportUser.getMail());
+                User newUser = new User();
+                newUser.setName(dto.getUserName());
+                newUser.setPassport(newPassport);
 
-                String hashedPassword = this.passwordEncoder.encode(newPassportUser.getPassword());
-                newPassport.setPasswordHash(hashedPassword);
-
-                User newUser = this.userService.add(newPassport.getId(), newPassportUser.getUserName());
                 newPassport.setUser(newUser);
 
-                this.passportDao.save(newPassport);
-                this.userDao.save(newUser);
+                // SADECE passport'ı kaydet
+                passportDao.save(newPassport); // User da cascade ile kaydedilir
 
                 return new SuccessResult("Created with the new passport user !");
             }
-
         }
 
         return new Result(false, "Error! Passport creation failed !");

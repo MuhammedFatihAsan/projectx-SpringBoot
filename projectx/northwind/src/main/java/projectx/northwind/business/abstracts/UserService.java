@@ -11,8 +11,6 @@ public interface UserService {
 
     boolean existsByName(String name);
 
-    User add(int userId, String userName);
-
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 

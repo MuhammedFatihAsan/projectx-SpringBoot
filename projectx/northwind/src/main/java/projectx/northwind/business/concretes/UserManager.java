@@ -33,22 +33,6 @@ public class UserManager implements UserService {
         return this.userDao.existsByName(name);
     }
 
-    @Override
-    public User add(int userId, String userName) {
-
-        if(!existsByName(userName)){
-
-            User newUser = new User();
-
-            newUser.setId(userId);
-            newUser.setName(userName);
-
-            return newUser;
-        }
-
-        return null;
-    }
-
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 
