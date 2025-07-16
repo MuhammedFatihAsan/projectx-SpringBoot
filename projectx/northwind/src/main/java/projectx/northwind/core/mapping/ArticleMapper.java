@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class ArticleMapper {
 
     public static List<String> extractCategoryTags(Article article) {
+
         if (article.getArticleCategories() == null) {
             return Collections.emptyList();
         }
@@ -21,6 +22,7 @@ public class ArticleMapper {
     }
 
     public static ArticleResponseDto mapArticleResponseDto(Article article) {
+
         ArticleResponseDto dto = new ArticleResponseDto();
 
         dto.setArticleId(article.getId());

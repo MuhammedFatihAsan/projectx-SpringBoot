@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.dataAccess.UserDao;
 import projectx.northwind.core.entities.User;
+import projectx.northwind.core.mapping.UserMapper;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
+import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
 import java.util.Optional;
 
@@ -31,9 +33,11 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public DataResult<User> findByName(String name) {
+    public DataResult<UserResponseDto> findByName(String name) {
 
-        return new SuccessDataResult<User>(this.userDao.findByName(name));
+        User user = this.userDao.findByName(name);
+
+        return new SuccessDataResult<UserResponseDto>(UserMapper.mapUserResponseDto(user));
     }
 
 }

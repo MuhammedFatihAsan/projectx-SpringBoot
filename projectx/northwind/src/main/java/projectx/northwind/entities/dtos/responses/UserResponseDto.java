@@ -12,11 +12,10 @@ import java.util.List;
 public class UserResponseDto {
 
     private int id;
-    private String username;
+    private String userName;
     private int passportId;
     private List<String> articleTitlesWritten;
-
-
-    // tamamlanmamış sınıf !!!
+    private List<String> commentsWritten;
+    private List<String> likedArticleTitles;
 
 }
