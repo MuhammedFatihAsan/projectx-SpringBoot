@@ -5,6 +5,6 @@ import projectx.northwind.core.entities.Passport;
 
 public interface PassportDao extends JpaRepository<Passport, Integer> {
 
-
+    boolean existsByMail(String mail);
 
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.utilities.results.DataResult;
-import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
 @RestController

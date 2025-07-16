@@ -6,6 +6,8 @@ import projectx.northwind.business.abstracts.PassportService;
 import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
+import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
+
 import java.util.List;
 
 @RestController
@@ -16,8 +18,12 @@ public class PassportsController {
 
     @Autowired
     public PassportsController(PassportService passportService) {
+
         this.passportService = passportService;
     }
+
+    // =================== RESPONSE METHODS ===================
+    // (Data exporting, DTO returning operations)
 
     @GetMapping("/getAll")
     public DataResult<List<Passport>> getAll(){
@@ -25,10 +31,13 @@ public class PassportsController {
         return this.passportService.getAll();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody Passport passport){
+    // =================== REQUEST METHODS ===================
+    // (Operations that retrieve, save or modify new data)
 
-        return this.passportService.add(passport);
+    @PostMapping("/add")
+    public Result add(@RequestBody CreatePassportWithUserDto newPassportUser){
+
+        return this.passportService.add(newPassportUser);
     }
 
 }

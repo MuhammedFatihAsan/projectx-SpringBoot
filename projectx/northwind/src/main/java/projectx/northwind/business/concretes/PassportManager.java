@@ -1,14 +1,19 @@
 package projectx.northwind.business.concretes;
 
-import org.springframework.beans.factory.annotation.Autowired; // bean -> class proje class'ı
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.PassportService;
+import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.dataAccess.PassportDao;
+import projectx.northwind.core.dataAccess.UserDao;
 import projectx.northwind.core.entities.Passport;
+import projectx.northwind.core.entities.User;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
+import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
 
 import java.util.List;
 
@@ -17,11 +22,32 @@ public class PassportManager implements PassportService {
 
     private final PassportDao passportDao;
 
+    private final UserDao userDao;
+
+    private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder; // Used for hashing and verifying passwords
+
     @Autowired
-    public PassportManager(PassportDao passportDao) {
+    public PassportManager(PassportDao passportDao, UserDao userDao, UserService userService, PasswordEncoder passwordEncoder) {
 
         this.passportDao = passportDao;
+        this.userDao = userDao;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
+
+    // =================== INTERNAL METHODS ===================
+    // (Only used within the system, not exposed via endpoint)
+
+    @Override
+    public boolean existsByMail(String mail) {
+
+        return this.passportDao.existsByMail(mail);
+    }
+
+    // =================== RESPONSE METHODS ===================
+    // (Data exporting, DTO returning operations)
 
     @Override
     public DataResult<List<Passport>> getAll() {
@@ -29,11 +55,35 @@ public class PassportManager implements PassportService {
         return new SuccessDataResult<>(this.passportDao.findAll(), "Data listed");
     }
 
-    @Override
-    public Result add(Passport passport) {
+    // =================== REQUEST METHODS ===================
+    // (Operations that retrieve, save or modify new data)
 
-        this.passportDao.save(passport);
-        return new SuccessResult("Passport added!");
+    @Override
+    public Result add(CreatePassportWithUserDto newPassportUser) {
+
+        if(!this.userService.existsByName(newPassportUser.getUserName())){
+
+            if(!existsByMail(newPassportUser.getMail())){
+
+                Passport newPassport = new Passport();
+
+                newPassport.setMail(newPassportUser.getMail());
+
+                String hashedPassword = this.passwordEncoder.encode(newPassportUser.getPassword());
+                newPassport.setPasswordHash(hashedPassword);
+
+                User newUser = this.userService.add(newPassport.getId(), newPassportUser.getUserName());
+                newPassport.setUser(newUser);
+
+                this.userDao.save(newUser);
+                this.passportDao.save(newPassport);
+
+                return new SuccessResult("Created with the new passport user !");
+            }
+
+        }
+
+        return new Result(false, "Error! Passport creation failed !");
     }
 
 }

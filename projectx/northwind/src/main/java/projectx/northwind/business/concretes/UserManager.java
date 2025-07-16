@@ -7,7 +7,6 @@ import projectx.northwind.core.dataAccess.UserDao;
 import projectx.northwind.core.entities.User;
 import projectx.northwind.core.mapping.UserMapper;
 import projectx.northwind.core.utilities.results.DataResult;
-import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
@@ -25,12 +24,33 @@ public class UserManager implements UserService {
         this.userDao = userDao;
     }
 
-    @Override
-    public Result add(User user) {
+    // =================== INTERNAL METHODS ===================
+    // (Only used within the system, not exposed via endpoint)
 
-        this.userDao.save(user);
-        return new SuccessResult("User added");
+    @Override
+    public boolean existsByName(String name) {
+
+        return this.userDao.existsByName(name);
     }
+
+    @Override
+    public User add(int userId, String userName) {
+
+        if(!existsByName(userName)){
+
+            User newUser = new User();
+
+            newUser.setId(userId);
+            newUser.setName(userName);
+
+            return newUser;
+        }
+
+        return null;
+    }
+
+    // =================== RESPONSE METHODS ===================
+    // (Data exporting, DTO returning operations)
 
     @Override
     public DataResult<UserResponseDto> findByName(String name) {
