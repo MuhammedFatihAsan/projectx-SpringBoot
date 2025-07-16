@@ -2,6 +2,8 @@ package projectx.northwind.core.mapping;
 
 import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

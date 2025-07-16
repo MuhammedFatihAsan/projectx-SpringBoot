@@ -14,18 +14,18 @@ import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
+import projectx.northwind.entities.dtos.responses.PassportResponseDto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class PassportManager implements PassportService {
 
     private final PassportDao passportDao;
-
     private final UserDao userDao;
-
     private final UserService userService;
-
     private final PasswordEncoder passwordEncoder; // Used for hashing and verifying passwords
 
     @Autowired
@@ -50,9 +50,25 @@ public class PassportManager implements PassportService {
     // (Data exporting, DTO returning operations)
 
     @Override
-    public DataResult<List<Passport>> getAll() {
+    public DataResult<List<PassportResponseDto>> getAll() {
 
-        return new SuccessDataResult<>(this.passportDao.findAll(), "Data listed");
+        List<Passport> passports = this.passportDao.findAll();
+
+        List<PassportResponseDto> responseDtoList = new ArrayList<>();
+
+        for (Passport passport : passports){
+
+            PassportResponseDto dto = new PassportResponseDto();
+
+            dto.setPassportId(passport.getId());
+            dto.setMail(passport.getMail());
+            dto.setUserName(passport.getUser().getName());
+
+            responseDtoList.add(dto);
+
+        }
+
+        return new SuccessDataResult<List<PassportResponseDto>>(responseDtoList, "Data listed");
     }
 
     // =================== REQUEST METHODS ===================
@@ -75,8 +91,8 @@ public class PassportManager implements PassportService {
                 User newUser = this.userService.add(newPassport.getId(), newPassportUser.getUserName());
                 newPassport.setUser(newUser);
 
-                this.userDao.save(newUser);
                 this.passportDao.save(newPassport);
+                this.userDao.save(newUser);
 
                 return new SuccessResult("Created with the new passport user !");
             }

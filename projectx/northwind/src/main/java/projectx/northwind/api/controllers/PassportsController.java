@@ -3,10 +3,10 @@ package projectx.northwind.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.PassportService;
-import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
+import projectx.northwind.entities.dtos.responses.PassportResponseDto;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class PassportsController {
     // (Data exporting, DTO returning operations)
 
     @GetMapping("/getAll")
-    public DataResult<List<Passport>> getAll(){
+    public DataResult<List<PassportResponseDto>> getAll(){
 
         return this.passportService.getAll();
     }

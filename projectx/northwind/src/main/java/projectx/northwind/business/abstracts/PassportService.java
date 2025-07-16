@@ -5,6 +5,7 @@ import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
+import projectx.northwind.entities.dtos.responses.PassportResponseDto;
 
 public interface PassportService {
 
@@ -16,7 +17,7 @@ public interface PassportService {
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 
-    DataResult<List<Passport>> getAll();
+    DataResult<List<PassportResponseDto>> getAll();
 
     // =================== REQUEST METHODS ===================
     // (Operations that retrieve, save or modify new data)
