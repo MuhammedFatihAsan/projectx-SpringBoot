@@ -10,6 +10,11 @@ import java.util.List;
 
 public interface ArticleService {
 
+    // =================== INTERNAL METHODS ===================
+    // (Only used within the system, not exposed via endpoint)
+
+    boolean existsByTitle(String title);
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 

@@ -36,6 +36,15 @@ public class ArticleManager implements ArticleService {
         this.userDao = userDao;
     }
 
+    // =================== INTERNAL METHODS ===================
+    // (Only used within the system, not exposed via endpoint)
+
+    @Override
+    public boolean existsByTitle(String title) {
+
+        return this.articleDao.existsByTitle(title);
+    }
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 
