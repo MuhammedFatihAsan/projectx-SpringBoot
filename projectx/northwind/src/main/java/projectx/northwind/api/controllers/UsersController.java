@@ -9,6 +9,8 @@ import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
@@ -28,6 +30,12 @@ public class UsersController {
     public DataResult<UserResponseDto> findByName(@RequestParam String name){
 
         return this.userService.findByName(name);
+    }
+
+    @GetMapping("/getAll")
+    public DataResult<List<UserResponseDto>> getAll(){
+
+        return this.userService.getAll();
     }
 
 }

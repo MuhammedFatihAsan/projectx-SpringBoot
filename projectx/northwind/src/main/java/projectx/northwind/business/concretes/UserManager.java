@@ -11,6 +11,8 @@ import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +44,21 @@ public class UserManager implements UserService {
         User user = this.userDao.findByName(name);
 
         return new SuccessDataResult<UserResponseDto>(UserMapper.mapUserResponseDto(user));
+    }
+
+    @Override
+    public DataResult<List<UserResponseDto>> getAll() {
+
+        List<User> users = this.userDao.findAll();
+
+        List<UserResponseDto> responseDtoList = new ArrayList<>();
+
+        for(User user : users){
+
+            responseDtoList.add(UserMapper.mapUserResponseDto(user));
+        }
+
+        return new SuccessDataResult<List<UserResponseDto>>(responseDtoList);
     }
 
 }
