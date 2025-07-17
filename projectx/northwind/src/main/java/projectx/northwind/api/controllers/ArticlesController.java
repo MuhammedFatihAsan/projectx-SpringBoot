@@ -1,11 +1,11 @@
 package projectx.northwind.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
-import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
@@ -103,9 +103,9 @@ public class ArticlesController {
     // (Operations that retrieve, save or modify new data)
 
     @PostMapping("/add")
-    public Result add(@RequestBody CreateArticleRequestDto newArticleRequest){
+    public ResponseEntity<Result> add(@RequestBody CreateArticleRequestDto newArticleRequest){
 
-        return this.articleService.add(newArticleRequest);
+        return ResponseEntity.ok(this.articleService.add(newArticleRequest));
     }
 
 }

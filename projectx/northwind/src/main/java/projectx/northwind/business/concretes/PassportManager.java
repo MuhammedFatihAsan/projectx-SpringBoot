@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.PassportService;
 import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.dataAccess.PassportDao;
-import projectx.northwind.core.dataAccess.UserDao;
 import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.entities.User;
 import projectx.northwind.core.utilities.results.DataResult;
@@ -17,22 +16,19 @@ import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
 import projectx.northwind.entities.dtos.responses.PassportResponseDto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 public class PassportManager implements PassportService {
 
     private final PassportDao passportDao;
-    private final UserDao userDao;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder; // Used for hashing and verifying passwords
 
     @Autowired
-    public PassportManager(PassportDao passportDao, UserDao userDao, UserService userService, PasswordEncoder passwordEncoder) {
+    public PassportManager(PassportDao passportDao, UserService userService, PasswordEncoder passwordEncoder) {
 
         this.passportDao = passportDao;
-        this.userDao = userDao;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }

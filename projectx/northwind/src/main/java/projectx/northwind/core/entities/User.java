@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.concretes.ArticleLike;
 import projectx.northwind.entities.concretes.Comment;
-
 import java.util.List;
 
 @Entity
