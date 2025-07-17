@@ -15,5 +15,7 @@ public class ArticleResponseDto {
     private String body;
     private String author;
     private List<String> tags;
+    private List<String> comments;
+    private List<String> likedUserNames;
 
 }
