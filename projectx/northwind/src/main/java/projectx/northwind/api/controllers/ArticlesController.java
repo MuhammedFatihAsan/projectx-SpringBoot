@@ -1,5 +1,6 @@
 package projectx.northwind.api.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +104,7 @@ public class ArticlesController {
     // (Operations that retrieve, save or modify new data)
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody CreateArticleRequestDto newArticleRequest){
+    public ResponseEntity<Result> add(@Valid @RequestBody CreateArticleRequestDto newArticleRequest){
 
         return ResponseEntity.ok(this.articleService.add(newArticleRequest));
     }

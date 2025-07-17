@@ -13,6 +13,7 @@ public class SecurityConfig {
     // Şifreleri hashlemek için BCrypt encoder bean'i
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 

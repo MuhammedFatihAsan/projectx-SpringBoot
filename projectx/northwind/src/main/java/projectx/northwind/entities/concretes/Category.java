@@ -20,9 +20,9 @@ public class Category {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "tag")
     @NotBlank
     @NotNull
+    @Column(name = "tag")
     private String tag;
 
     @OneToMany(mappedBy = "articleCategory")

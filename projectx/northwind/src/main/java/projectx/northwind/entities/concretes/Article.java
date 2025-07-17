@@ -1,6 +1,7 @@
 package projectx.northwind.entities.concretes;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,17 +22,18 @@ public class Article {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
     @NotBlank
     @NotNull
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "body")
     @NotBlank
     @NotNull
+    @Column(name = "body")
     private String body;
 
     @ManyToOne
+    @Valid
     @JoinColumn(name = "user_id")
     private User articleUser;
 

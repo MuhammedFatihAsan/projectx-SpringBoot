@@ -20,15 +20,15 @@ public class Passport {
     @Column(name="id")
     private int id;
 
-    @Column(name="mail")
     @Email
     @NotBlank // ""
     @NotNull
+    @Column(name="mail")
     private String mail;
 
-    @Column(name="password_hash")
     @NotBlank // ""
     @NotNull
+    @Column(name="password_hash")
     private String passwordHash;
 
     // (tr): Cascade(şelale) = Şelale etkisi gibi düşünebilirsin. Passport üzerinde yapılan işlemler (ekleme, silme),

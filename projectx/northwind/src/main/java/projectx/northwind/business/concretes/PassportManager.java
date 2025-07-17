@@ -8,6 +8,8 @@ import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.dataAccess.PassportDao;
 import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.entities.User;
+import projectx.northwind.core.exceptions.types.MailAlreadyExistsException;
+import projectx.northwind.core.exceptions.types.UserAlreadyExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
@@ -43,7 +45,6 @@ public class PassportManager implements PassportService {
     }
 
     // =================== RESPONSE METHODS ===================
-    // (Data exporting, DTO returning operations)
 
     @Override
     public DataResult<List<PassportResponseDto>> getAll() {
@@ -68,34 +69,47 @@ public class PassportManager implements PassportService {
     }
 
     // =================== REQUEST METHODS ===================
-    // (Operations that retrieve, save or modify new data)
 
     @Override
-    public Result add(CreatePassportWithUserDto dto) {
+    public Result add(CreatePassportWithUserDto dto) throws UserAlreadyExistsException, MailAlreadyExistsException {
 
-        if(!this.userService.existsByName(dto.getUserName())){
+        checkUserAlreadyExists(dto.getUserName());
+        checkMailAlreadyExists(dto.getMail());
 
-            if(!existsByMail(dto.getMail())){
+        Passport newPassport = new Passport();
+        newPassport.setMail(dto.getMail());
+        newPassport.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
 
-                Passport newPassport = new Passport();
-                newPassport.setMail(dto.getMail());
-                newPassport.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
+        User newUser = new User();
+        newUser.setName(dto.getUserName());
+        newUser.setPassport(newPassport);
 
-                User newUser = new User();
-                newUser.setName(dto.getUserName());
-                newUser.setPassport(newPassport);
+        newPassport.setUser(newUser);
 
-                newPassport.setUser(newUser);
+        // (tr): Sadece passport kaydedilerek ilişkili user da otomatik kaydedilir (cascade sayesinde)
+        // (en): Only passport is saved, and the related user is also persisted automatically (thanks to cascade)
+        passportDao.save(newPassport);
 
-                // (tr): Sadece passport kaydedilerek ilişkili user da otomatik kaydedilir (cascade sayesinde)
-                // (en): Only passport is saved, and the related user is also persisted automatically (thanks to cascade)
-                passportDao.save(newPassport);
+        return new SuccessResult("Created with the new passport user !");
 
-                return new SuccessResult("Created with the new passport user !");
-            }
+    }
+
+    // =================== BUSINESS RULE CHECKS ===================
+
+    private void checkUserAlreadyExists(String userName) throws UserAlreadyExistsException {
+
+        if(this.userService.existsByName(userName)){
+
+            throw new UserAlreadyExistsException("User with name " + userName + " already exists !");
         }
+    }
 
-        return new Result(false, "Error! Passport creation failed !");
+    private void checkMailAlreadyExists(String mail) throws MailAlreadyExistsException {
+
+        if(existsByMail(mail)){
+
+            throw new MailAlreadyExistsException(mail + " : Mail already exists !");
+        }
     }
 
 }

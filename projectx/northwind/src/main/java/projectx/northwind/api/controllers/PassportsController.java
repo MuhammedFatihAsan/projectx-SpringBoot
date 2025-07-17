@@ -1,8 +1,11 @@
 package projectx.northwind.api.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.PassportService;
+import projectx.northwind.core.exceptions.types.MailAlreadyExistsException;
+import projectx.northwind.core.exceptions.types.UserAlreadyExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;
@@ -35,7 +38,7 @@ public class PassportsController {
     // (Operations that retrieve, save or modify new data)
 
     @PostMapping("/add")
-    public Result add(@RequestBody CreatePassportWithUserDto newPassportUser){
+    public Result add(@Valid @RequestBody CreatePassportWithUserDto newPassportUser) throws MailAlreadyExistsException, UserAlreadyExistsException {
 
         return this.passportService.add(newPassportUser);
     }

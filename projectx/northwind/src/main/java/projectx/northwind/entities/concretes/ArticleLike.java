@@ -1,6 +1,7 @@
 package projectx.northwind.entities.concretes;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,12 @@ public class ArticleLike {
     private int id;
 
     @ManyToOne
+    @Valid
     @JoinColumn(name = "user_id")
     private User likeUser;
 
     @ManyToOne
+    @Valid
     @JoinColumn(name = "article_id")
     private Article likeArticle;
 
