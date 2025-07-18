@@ -18,14 +18,12 @@ import java.util.List;
 public interface ArticleService {
 
     // =================== INTERNAL METHODS ===================
-    // (Only used within the system, not exposed via endpoint)
 
     boolean existsByTitle(String title);
 
     boolean existsBy();
 
     // =================== RESPONSE METHODS ===================
-    // (Data exporting, DTO returning operations)
 
     DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException;
 
@@ -52,7 +50,6 @@ public interface ArticleService {
     DataResult<List<ArticleWithUserDto>> getArticleWithUser() throws NoArticlesExistException, NoUsersExistsException;
 
     // =================== REQUEST METHODS ===================
-    // (Operations that retrieve, save or modify new data)
 
     Result add(CreateArticleRequestDto newArticle) throws UserNotFoundException, TitleAlreadyExistsException;
 

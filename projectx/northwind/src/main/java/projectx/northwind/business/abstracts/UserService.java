@@ -11,7 +11,6 @@ import java.util.List;
 public interface UserService {
 
     // =================== INTERNAL METHODS ===================
-    // (Only used within the system, not exposed via endpoint)
 
     boolean existsByName(String name);
 
@@ -22,7 +21,6 @@ public interface UserService {
     boolean existsBy();
 
     // =================== RESPONSE METHODS ===================
-    // (Data exporting, DTO returning operations)
 
     DataResult<UserResponseDto> findByName(String name) throws UserNotFoundException;
 

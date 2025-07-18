@@ -258,7 +258,6 @@ public class ArticleManager implements ArticleService {
     }
 
     // =================== REQUEST METHODS ===================
-    // (Operations that retrieve, save or modify new data)
 
     @Override
     public Result add(CreateArticleRequestDto newArticleRequest) throws UserNotFoundException, TitleAlreadyExistsException {

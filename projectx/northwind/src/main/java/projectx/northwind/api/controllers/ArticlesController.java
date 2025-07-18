@@ -33,7 +33,6 @@ public class ArticlesController {
     }
 
     // =================== RESPONSE METHODS ===================
-    // (Data exporting, DTO returning operations)
 
     @GetMapping("/getAll")
     public DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException {
@@ -108,7 +107,6 @@ public class ArticlesController {
     }
 
     // =================== REQUEST METHODS ===================
-    // (Operations that retrieve, save or modify new data)
 
     @PostMapping("/add")
     public ResponseEntity<Result> add(@Valid @RequestBody CreateArticleRequestDto newArticleRequest) throws UserNotFoundException, TitleAlreadyExistsException {
