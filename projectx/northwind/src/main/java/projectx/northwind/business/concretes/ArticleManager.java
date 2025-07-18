@@ -309,13 +309,12 @@ public class ArticleManager implements ArticleService {
 
         for(Integer userId : userIds){
 
-            if(this.userService.existsById(userId)){
+            if(!this.userService.existsById(userId)){
 
-                return;
+                throw new NoUsersExistsException("The user with id " + userId + " in your list is not in the users.");
             }
         }
 
-        throw new NoUsersExistsException("None of the user ids are in users!");
     }
 
 }
