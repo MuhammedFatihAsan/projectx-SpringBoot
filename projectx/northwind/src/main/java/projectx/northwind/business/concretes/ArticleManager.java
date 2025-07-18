@@ -7,11 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.business.abstracts.UserService;
-import projectx.northwind.core.dataAccess.UserDao;
-import projectx.northwind.core.entities.User;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.mapping.ArticleMapper;
@@ -195,9 +194,11 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getByTitleContains(String title) {
+    public DataResult<List<ArticleResponseDto>> getByTitleContains(String title) throws EmptyListException {
 
         List<Article> articles = this.articleDao.getByTitleContains(title);
+
+        checkListIsEmpty(articles,"No article title containing {" + title + "} was found.");
 
         List<ArticleResponseDto> responseDtoList = new ArrayList<>();
 
@@ -211,9 +212,11 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getByTitleStartsWith(String title) {
+    public DataResult<List<ArticleResponseDto>> getByTitleStartsWith(String title) throws EmptyListException {
 
         List<Article> articles = this.articleDao.getByTitleStartsWith(title);
+
+        checkListIsEmpty(articles, "No article title found starting with {" + title + "}.");
 
         List<ArticleResponseDto> responseDtoList = new ArrayList<>();
 
@@ -227,9 +230,11 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getByNameAndUser(String title, int user_id) {
+    public DataResult<List<ArticleResponseDto>> getByNameAndUser(String title, int user_id) throws EmptyListException {
 
         List<Article> articles = this.articleDao.getByNameAndUser(title, user_id);
+
+        checkListIsEmpty(articles, "Article title: " + title + " User ID: " + user_id + " No matching data record found!");
 
         List<ArticleResponseDto> responseDtoList = new ArrayList<>();
 
@@ -243,7 +248,10 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleWithUserDto>> getArticleWithUser() {
+    public DataResult<List<ArticleWithUserDto>> getArticleWithUser() throws NoArticlesExistException, NoUsersExistsException {
+
+        checkAnyArticleExists();
+        checkAnyUsersExists();
 
         return new SuccessDataResult<List<ArticleWithUserDto>>(this.articleDao.getArticleWithUser(), "Data listed");
     }
@@ -289,6 +297,14 @@ public class ArticleManager implements ArticleService {
         }
     }
 
+    private void checkAnyUsersExists() throws NoUsersExistsException {
+
+        if(!this.userService.existsBy()){
+
+            throw new NoUsersExistsException("No users are registered!");
+        }
+    }
+
     private void checkUserExistsById(int userId) throws UserNotFoundException {
 
         if(!this.userService.existsById(userId)){
@@ -315,6 +331,14 @@ public class ArticleManager implements ArticleService {
             }
         }
 
+    }
+
+    private void checkListIsEmpty(List<Article> articleList, String message) throws EmptyListException {
+
+        if(articleList.isEmpty()){
+
+            throw new EmptyListException(message);
+        }
     }
 
 }

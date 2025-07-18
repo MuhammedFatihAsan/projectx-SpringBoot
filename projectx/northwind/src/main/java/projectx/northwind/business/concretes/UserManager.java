@@ -41,6 +41,12 @@ public class UserManager implements UserService {
         return this.userDao.existsById(userId);
     }
 
+    @Override
+    public boolean existsBy() {
+
+        return this.userDao.existsBy();
+    }
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 

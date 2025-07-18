@@ -8,6 +8,7 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
@@ -82,25 +83,25 @@ public class ArticlesController {
     }
 
     @GetMapping("/getByTitleContains")
-    public DataResult<List<ArticleResponseDto>> getByTitleContains(@RequestParam String title){
+    public DataResult<List<ArticleResponseDto>> getByTitleContains(@RequestParam String title) throws EmptyListException {
 
         return this.articleService.getByTitleContains(title);
     }
 
     @GetMapping("/getByTitlesStartsWith")
-    public DataResult<List<ArticleResponseDto>> getByTitleStartsWith(@RequestParam String title){
+    public DataResult<List<ArticleResponseDto>> getByTitleStartsWith(@RequestParam String title) throws EmptyListException {
 
         return this.articleService.getByTitleStartsWith(title);
     }
 
     @GetMapping("/getByNameAndUser")
-    public DataResult<List<ArticleResponseDto>> getByNameAndUser(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<List<ArticleResponseDto>> getByNameAndUser(@RequestParam String title, @RequestParam int user_id) throws EmptyListException {
 
         return this.articleService.getByNameAndUser(title, user_id);
     }
 
     @GetMapping("/getArticleWithUser")
-    public DataResult<List<ArticleWithUserDto>> getArticleWithUser(){
+    public DataResult<List<ArticleWithUserDto>> getArticleWithUser() throws NoUsersExistsException, NoArticlesExistException {
 
         return this.articleService.getArticleWithUser();
     }
