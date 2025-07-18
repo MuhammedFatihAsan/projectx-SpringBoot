@@ -8,6 +8,7 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
@@ -74,8 +75,8 @@ public class ArticlesController {
         return this.articleService.getByTitleOrArticleUser_Id(title, user_id);
     }
 
-    @GetMapping("/getByUserIn")
-    public DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(@RequestParam List<Integer> users){
+    @GetMapping("/getByArticleUser_IdIn")
+    public DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(@RequestParam List<Integer> users) throws NoUsersExistsException {
 
         return this.articleService.getByArticleUser_IdIn(users);
     }

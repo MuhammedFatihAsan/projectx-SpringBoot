@@ -3,6 +3,7 @@ package projectx.northwind.business.abstracts;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
@@ -38,7 +39,7 @@ public interface ArticleService {
 
     DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(String title, int user_id) throws ArticleAndUserNotFoundException;
 
-    DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(List<Integer> users);
+    DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(List<Integer> users) throws NoUsersExistsException;
 
     DataResult<List<ArticleResponseDto>> getByTitleContains(String title);
 

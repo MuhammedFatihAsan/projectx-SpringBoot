@@ -177,9 +177,9 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(List<Integer> users) {
+    public DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(List<Integer> users) throws NoUsersExistsException {
 
-
+        checkUserExistsByIdList(users);
 
         List<Article> articles = this.articleDao.getByArticleUser_IdIn(users);
 
@@ -305,9 +305,17 @@ public class ArticleManager implements ArticleService {
         }
     }
 
-//    private void checkUserExistsByIdList(List<Integer> userIds) throws NoUsersExistsException {
-//
-//
-//    }
+    private void checkUserExistsByIdList(List<Integer> userIds) throws NoUsersExistsException {
+
+        for(Integer userId : userIds){
+
+            if(this.userService.existsById(userId)){
+
+                return;
+            }
+        }
+
+        throw new NoUsersExistsException("None of the user ids are in users!");
+    }
 
 }
