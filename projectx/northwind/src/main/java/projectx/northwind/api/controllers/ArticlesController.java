@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
+import projectx.northwind.core.exceptions.types.article.TitleAlreadyExistsException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
@@ -110,7 +111,7 @@ public class ArticlesController {
     // (Operations that retrieve, save or modify new data)
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@Valid @RequestBody CreateArticleRequestDto newArticleRequest){
+    public ResponseEntity<Result> add(@Valid @RequestBody CreateArticleRequestDto newArticleRequest) throws UserNotFoundException, TitleAlreadyExistsException {
 
         return ResponseEntity.ok(this.articleService.add(newArticleRequest));
     }

@@ -1,5 +1,6 @@
 package projectx.northwind.business.abstracts;
 
+import projectx.northwind.core.entities.User;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
@@ -13,6 +14,8 @@ public interface UserService {
     boolean existsByName(String name);
 
     boolean existsById(int userId);
+
+    User findById(int userId);
 
     boolean existsBy();
 

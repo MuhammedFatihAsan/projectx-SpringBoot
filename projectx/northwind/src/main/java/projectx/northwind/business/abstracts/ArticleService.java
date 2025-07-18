@@ -2,6 +2,7 @@ package projectx.northwind.business.abstracts;
 
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
+import projectx.northwind.core.exceptions.types.article.TitleAlreadyExistsException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
@@ -53,6 +54,6 @@ public interface ArticleService {
     // =================== REQUEST METHODS ===================
     // (Operations that retrieve, save or modify new data)
 
-    Result add(CreateArticleRequestDto newArticle);
+    Result add(CreateArticleRequestDto newArticle) throws UserNotFoundException, TitleAlreadyExistsException;
 
 }

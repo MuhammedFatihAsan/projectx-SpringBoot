@@ -8,12 +8,10 @@ import projectx.northwind.core.entities.User;
 import projectx.northwind.core.mapping.UserMapper;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
-import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserManager implements UserService {
@@ -39,6 +37,12 @@ public class UserManager implements UserService {
     public boolean existsById(int userId) {
 
         return this.userDao.existsById(userId);
+    }
+
+    @Override
+    public User findById(int userId) {
+
+        return this.userDao.findById(userId);
     }
 
     @Override

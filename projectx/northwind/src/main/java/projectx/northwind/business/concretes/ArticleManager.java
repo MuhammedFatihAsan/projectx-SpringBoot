@@ -9,6 +9,7 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
+import projectx.northwind.core.exceptions.types.article.TitleAlreadyExistsException;
 import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
@@ -260,18 +261,16 @@ public class ArticleManager implements ArticleService {
     // (Operations that retrieve, save or modify new data)
 
     @Override
-    public Result add(CreateArticleRequestDto newArticleRequest) {
+    public Result add(CreateArticleRequestDto newArticleRequest) throws UserNotFoundException, TitleAlreadyExistsException {
+
+        checkUserExistsById(newArticleRequest.getAuthorId());
+        checkTitleAlreadyExists(newArticleRequest.getTitle());
 
         Article newArticle = new Article();
 
         newArticle.setTitle(newArticleRequest.getTitle());
         newArticle.setBody(newArticleRequest.getBody());
-
-//        int authorId = newArticleRequest.getAuthorId();
-//        User author = userDao.findById(authorId)
-//                .orElseThrow(() -> new RuntimeException("User not found to add article"));
-
-//        newArticle.setArticleUser(author);
+        newArticle.setArticleUser(this.userService.findById(newArticleRequest.getAuthorId()));
 
         this.articleDao.save(newArticle);
 
@@ -338,6 +337,14 @@ public class ArticleManager implements ArticleService {
         if(articleList.isEmpty()){
 
             throw new EmptyListException(message);
+        }
+    }
+
+    private void checkTitleAlreadyExists(String title) throws TitleAlreadyExistsException {
+
+        if(!existsByTitle(title)){
+
+            throw new TitleAlreadyExistsException("The title of the article you want to add has already been used! It has not been added!");
         }
     }
 
