@@ -1,6 +1,8 @@
 package projectx.northwind.business.abstracts;
 
 import projectx.northwind.core.entities.User;
+import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
+import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.entities.dtos.responses.UserResponseDto;
 
@@ -22,8 +24,8 @@ public interface UserService {
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 
-    DataResult<UserResponseDto> findByName(String name);
+    DataResult<UserResponseDto> findByName(String name) throws UserNotFoundException;
 
-    DataResult<List<UserResponseDto>> getAll();
+    DataResult<List<UserResponseDto>> getAll() throws NoUsersExistsException;
 
 }
