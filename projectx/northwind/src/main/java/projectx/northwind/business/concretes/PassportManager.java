@@ -9,6 +9,7 @@ import projectx.northwind.core.dataAccess.PassportDao;
 import projectx.northwind.core.entities.Passport;
 import projectx.northwind.core.entities.User;
 import projectx.northwind.core.exceptions.types.passport.MailAlreadyExistsException;
+import projectx.northwind.core.exceptions.types.passport.NoPassportExistsException;
 import projectx.northwind.core.exceptions.types.user.UserAlreadyExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
@@ -36,7 +37,6 @@ public class PassportManager implements PassportService {
     }
 
     // =================== INTERNAL METHODS ===================
-    // (Only used within the system, not exposed via endpoint)
 
     @Override
     public boolean existsByMail(String mail) {
@@ -44,10 +44,18 @@ public class PassportManager implements PassportService {
         return this.passportDao.existsByMail(mail);
     }
 
+    @Override
+    public boolean existsBy() {
+
+        return this.passportDao.existsBy();
+    }
+
     // =================== RESPONSE METHODS ===================
 
     @Override
-    public DataResult<List<PassportResponseDto>> getAll() {
+    public DataResult<List<PassportResponseDto>> getAll() throws NoPassportExistsException {
+
+        checkAnyPassportExists();
 
         List<Passport> passports = this.passportDao.findAll();
 
@@ -95,6 +103,14 @@ public class PassportManager implements PassportService {
     }
 
     // =================== BUSINESS RULE CHECKS ===================
+
+    private void checkAnyPassportExists() throws NoPassportExistsException {
+
+        if(!existsBy()){
+
+            throw new NoPassportExistsException("No passport are registered!");
+        }
+    }
 
     private void checkUserAlreadyExists(String userName) throws UserAlreadyExistsException {
 

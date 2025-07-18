@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.PassportService;
 import projectx.northwind.core.exceptions.types.passport.MailAlreadyExistsException;
+import projectx.northwind.core.exceptions.types.passport.NoPassportExistsException;
 import projectx.northwind.core.exceptions.types.user.UserAlreadyExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
@@ -29,7 +30,7 @@ public class PassportsController {
     // (Data exporting, DTO returning operations)
 
     @GetMapping("/getAll")
-    public DataResult<List<PassportResponseDto>> getAll(){
+    public DataResult<List<PassportResponseDto>> getAll() throws NoPassportExistsException {
 
         return this.passportService.getAll();
     }

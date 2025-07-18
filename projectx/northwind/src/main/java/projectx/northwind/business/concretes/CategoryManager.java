@@ -3,6 +3,7 @@ package projectx.northwind.business.concretes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.CategoryService;
+import projectx.northwind.core.exceptions.types.category.NoCategoryExistsException;
 import projectx.northwind.core.mapping.CategoryMapper;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
@@ -32,10 +33,18 @@ public class CategoryManager implements CategoryService {
         return this.categoryDao.existsByTag(tag);
     }
 
+    @Override
+    public boolean existsBy() {
+
+        return this.categoryDao.existsBy();
+    }
+
     // =================== RESPONSE METHODS ===================
 
     @Override
-    public DataResult<List<CategoryResponseDto>> getAll() {
+    public DataResult<List<CategoryResponseDto>> getAll() throws NoCategoryExistsException {
+
+        checkAnyCategoryExists();
 
         List<Category> categories = this.categoryDao.findAll();
 
@@ -47,6 +56,16 @@ public class CategoryManager implements CategoryService {
         }
 
         return new SuccessDataResult<List<CategoryResponseDto>>(responseDtoList);
+    }
+
+    // =================== BUSINESS RULE CHECKS ===================
+
+    private void checkAnyCategoryExists() throws NoCategoryExistsException {
+
+        if(!existsBy()){
+
+            throw new NoCategoryExistsException("No category are registered!");
+        }
     }
 
 }

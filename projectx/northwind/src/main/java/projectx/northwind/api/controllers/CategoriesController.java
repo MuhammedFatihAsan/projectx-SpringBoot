@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import projectx.northwind.business.abstracts.CategoryService;
+import projectx.northwind.core.exceptions.types.category.NoCategoryExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.entities.dtos.responses.CategoryResponseDto;
 
@@ -25,7 +26,7 @@ public class CategoriesController {
     // =================== RESPONSE METHODS ===================
 
     @GetMapping("/getAll")
-    public DataResult<List<CategoryResponseDto>> getAll(){
+    public DataResult<List<CategoryResponseDto>> getAll() throws NoCategoryExistsException {
 
         return this.categoryService.getAll();
     }

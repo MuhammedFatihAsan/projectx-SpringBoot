@@ -7,4 +7,6 @@ public interface PassportDao extends JpaRepository<Passport, Integer> {
 
     boolean existsByMail(String mail);
 
+    boolean existsBy();
+
 }
