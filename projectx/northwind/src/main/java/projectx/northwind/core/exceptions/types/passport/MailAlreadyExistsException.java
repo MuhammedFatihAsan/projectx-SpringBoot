@@ -1,4 +1,4 @@
-package projectx.northwind.core.exceptions.types;
+package projectx.northwind.core.exceptions.types.passport;
 
 import projectx.northwind.core.exceptions.base.BusinessException;
 

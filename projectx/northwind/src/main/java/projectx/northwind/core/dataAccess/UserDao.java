@@ -5,8 +5,10 @@ import projectx.northwind.core.entities.User;
 
 public interface UserDao extends JpaRepository<User, Integer> {
 
-    User findByName(String name);
-
     boolean existsByName(String name);
+
+    boolean existsById(int userId);
+
+    User findByName(String name);
 
 }

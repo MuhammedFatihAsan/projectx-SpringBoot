@@ -1,5 +1,9 @@
 package projectx.northwind.business.abstracts;
 
+import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
+import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
+import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
@@ -15,22 +19,24 @@ public interface ArticleService {
 
     boolean existsByTitle(String title);
 
+    boolean existsBy();
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 
-    DataResult<List<ArticleResponseDto>> getAll();
+    DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException;
 
-    DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize);
+    DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize) throws NoArticlesExistException;
 
-    DataResult<List<ArticleResponseDto>> getAllSortedDesc();
+    DataResult<List<ArticleResponseDto>> getAllSortedDesc() throws NoArticlesExistException;
 
-    DataResult<List<ArticleResponseDto>> getAllSortedAsc();
+    DataResult<List<ArticleResponseDto>> getAllSortedAsc() throws NoArticlesExistException;
 
-    DataResult<ArticleResponseDto> getByTitle(String title);
+    DataResult<ArticleResponseDto> getByTitle(String title) throws ArticleNotFoundException;
 
-    DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(String title, int user_id);
+    DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(String title, int user_id) throws ArticleNotFoundException, UserNotFoundException;
 
-    DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(String title, int user_id);
+    DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(String title, int user_id) throws ArticleAndUserNotFoundException;
 
     DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(List<Integer> users);
 

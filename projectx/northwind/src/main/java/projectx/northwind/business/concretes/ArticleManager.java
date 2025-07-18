@@ -6,8 +6,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.ArticleService;
+import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.dataAccess.UserDao;
 import projectx.northwind.core.entities.User;
+import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
+import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
+import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
+import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.mapping.ArticleMapper;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
@@ -27,13 +33,13 @@ import java.util.List;
 public class ArticleManager implements ArticleService {
 
     private final ArticleDao articleDao;
-    private final UserDao userDao;
+    private final UserService userService;
 
     @Autowired
-    public ArticleManager(ArticleDao articleDao,  UserDao userDao) {
+    public ArticleManager(ArticleDao articleDao,  UserService userService) {
 
         this.articleDao = articleDao;
-        this.userDao = userDao;
+        this.userService = userService;
     }
 
     // =================== INTERNAL METHODS ===================
@@ -45,11 +51,19 @@ public class ArticleManager implements ArticleService {
         return this.articleDao.existsByTitle(title);
     }
 
+    @Override
+    public boolean existsBy() {
+
+        return this.articleDao.existsBy();
+    }
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getAll() {
+    public DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException {
+
+        checkAnyArticleExists();
 
         List<Article> articles = this.articleDao.findAll();
 
@@ -65,7 +79,9 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize) {
+    public DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize) throws NoArticlesExistException {
+
+        checkAnyArticleExists();
 
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);//-1 because it starts pagination from number 0
         List<Article> articles = this.articleDao.findAll(pageable).getContent();
@@ -82,7 +98,9 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getAllSortedDesc() {
+    public DataResult<List<ArticleResponseDto>> getAllSortedDesc() throws NoArticlesExistException {
+
+        checkAnyArticleExists();
 
         Sort sort = Sort.by(Sort.Direction.DESC,"title");
         List<Article> articles = this.articleDao.findAll(sort);
@@ -99,7 +117,9 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getAllSortedAsc() {
+    public DataResult<List<ArticleResponseDto>> getAllSortedAsc() throws NoArticlesExistException {
+
+        checkAnyArticleExists();
 
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
         List<Article> articles = this.articleDao.findAll(sort);
@@ -116,7 +136,9 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<ArticleResponseDto> getByTitle(String title) {
+    public DataResult<ArticleResponseDto> getByTitle(String title) throws ArticleNotFoundException {
+
+        checkArticleExistsByTitle(title);
 
         Article article = this.articleDao.getByTitle(title);
 
@@ -125,7 +147,10 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(String title, int user_id) {
+    public DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(String title, int user_id) throws ArticleNotFoundException, UserNotFoundException {
+
+        checkArticleExistsByTitle(title);
+        checkUserExistsById(user_id);
 
         Article article = this.articleDao.getByTitleAndArticleUser_Id(title, user_id);
 
@@ -134,7 +159,9 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
-    public DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(String title, int user_id) {
+    public DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(String title, int user_id) throws ArticleAndUserNotFoundException {
+
+        checkArticleExistsByTitleOrUserExistsById(title, user_id);
 
         List<Article> articles = this.articleDao.getByTitleOrArticleUser_Id(title, user_id);
 
@@ -151,6 +178,8 @@ public class ArticleManager implements ArticleService {
 
     @Override
     public DataResult<List<ArticleResponseDto>> getByArticleUser_IdIn(List<Integer> users) {
+
+
 
         List<Article> articles = this.articleDao.getByArticleUser_IdIn(users);
 
@@ -230,16 +259,55 @@ public class ArticleManager implements ArticleService {
         newArticle.setTitle(newArticleRequest.getTitle());
         newArticle.setBody(newArticleRequest.getBody());
 
-        int authorId = newArticleRequest.getAuthorId();
-        User author = userDao.findById(authorId)
-                .orElseThrow(() -> new RuntimeException("User not found to add article"));
+//        int authorId = newArticleRequest.getAuthorId();
+//        User author = userDao.findById(authorId)
+//                .orElseThrow(() -> new RuntimeException("User not found to add article"));
 
-        newArticle.setArticleUser(author);
+//        newArticle.setArticleUser(author);
 
         this.articleDao.save(newArticle);
 
         return new SuccessResult("Article added!");
 
     }
+
+    // =================== BUSINESS RULE CHECKS ===================
+
+    private void checkAnyArticleExists() throws NoArticlesExistException {
+
+        if(!existsBy()){
+
+            throw new NoArticlesExistException("No articles are registered!");
+        }
+    }
+
+    private void checkArticleExistsByTitle(String title) throws ArticleNotFoundException {
+
+        if(!existsByTitle(title)){
+
+            throw new ArticleNotFoundException(title + " : Not Found!");
+        }
+    }
+
+    private void checkUserExistsById(int userId) throws UserNotFoundException {
+
+        if(!this.userService.existsById(userId)){
+
+            throw new UserNotFoundException(userId + " : that id not found in users!");
+        }
+    }
+
+    private void checkArticleExistsByTitleOrUserExistsById(String title, int userId) throws ArticleAndUserNotFoundException {
+
+        if(!existsByTitle(title) && !this.userService.existsById(userId)){
+
+            throw new ArticleAndUserNotFoundException("Article title : " + title + " User id : " + userId + " both are not found!");
+        }
+    }
+
+//    private void checkUserExistsByIdList(List<Integer> userIds) throws NoUsersExistsException {
+//
+//
+//    }
 
 }

@@ -13,6 +13,8 @@ public interface UserService {
 
     boolean existsByName(String name);
 
+    boolean existsById(int userId);
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 

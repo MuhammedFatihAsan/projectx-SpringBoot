@@ -1,9 +1,9 @@
 package projectx.northwind.business.abstracts;
 
 import java.util.List;
-import projectx.northwind.core.entities.Passport;
-import projectx.northwind.core.exceptions.types.MailAlreadyExistsException;
-import projectx.northwind.core.exceptions.types.UserAlreadyExistsException;
+
+import projectx.northwind.core.exceptions.types.passport.MailAlreadyExistsException;
+import projectx.northwind.core.exceptions.types.user.UserAlreadyExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreatePassportWithUserDto;

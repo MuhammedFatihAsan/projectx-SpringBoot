@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.ArticleService;
+import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
+import projectx.northwind.core.exceptions.types.article.NoArticlesExistException;
+import projectx.northwind.core.exceptions.types.common.ArticleAndUserNotFoundException;
+import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
@@ -29,43 +33,43 @@ public class ArticlesController {
     // (Data exporting, DTO returning operations)
 
     @GetMapping("/getAll")
-    public DataResult<List<ArticleResponseDto>> getAll(){
+    public DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException {
 
         return this.articleService.getAll();
     }
 
     @GetMapping("/getAllByPage")
-    public DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize){
+    public DataResult<List<ArticleResponseDto>> getAll(int pageNo, int pageSize) throws NoArticlesExistException {
 
         return this.articleService.getAll(pageNo, pageSize);
     }
 
     @GetMapping("/getAllDesc")
-    public DataResult<List<ArticleResponseDto>> getAllSortedDesc(){
+    public DataResult<List<ArticleResponseDto>> getAllSortedDesc() throws NoArticlesExistException {
 
         return this.articleService.getAllSortedDesc();
     }
 
     @GetMapping("/getAllAsc")
-    public DataResult<List<ArticleResponseDto>> getAllSortedAsc(){
+    public DataResult<List<ArticleResponseDto>> getAllSortedAsc() throws NoArticlesExistException {
 
         return this.articleService.getAllSortedAsc();
     }
 
     @GetMapping("/getByTitle")
-    public DataResult<ArticleResponseDto> getByTitle(@RequestParam String title){
+    public DataResult<ArticleResponseDto> getByTitle(@RequestParam String title) throws ArticleNotFoundException {
 
         return this.articleService.getByTitle(title);
     }
 
     @GetMapping("getByTitleAndUser_Id")
-    public DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(@RequestParam String title, @RequestParam int user_id) throws ArticleNotFoundException, UserNotFoundException {
 
         return this.articleService.getByTitleAndArticleUser_Id(title, user_id);
     }
 
     @GetMapping("/getByTitleOrUser_Id")
-    public DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(@RequestParam String title, @RequestParam int user_id){
+    public DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(@RequestParam String title, @RequestParam int user_id) throws ArticleAndUserNotFoundException {
 
         return this.articleService.getByTitleOrArticleUser_Id(title, user_id);
     }
