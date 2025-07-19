@@ -4,15 +4,21 @@ INSERT INTO "passport" (mail, password_hash) VALUES
 ('bob@example.com', 'hash2'),
 ('carol@example.com', 'hash3'),
 ('dave@example.com', 'hash4'),
-('eve@example.com', 'hash5');
+('eve@example.com', 'hash5'),
+('frank@example.com', 'hash6'),
+('grace@example.com', 'hash7'),
+('heidi@example.com', 'hash8');
 
--- 2. user (id’ler passport ile eşleşmeli)
+-- 2. user
 INSERT INTO "user" (id, name) VALUES
 (1, 'Alice'),
 (2, 'Bob'),
 (3, 'Carol'),
 (4, 'Dave'),
-(5, 'Eve');
+(5, 'Eve'),
+(6, 'Frank'),
+(7, 'Grace'),
+(8, 'Heidi');
 
 -- 3. category
 INSERT INTO "category" (tag) VALUES
@@ -20,38 +26,72 @@ INSERT INTO "category" (tag) VALUES
 ('Health'),
 ('Science'),
 ('Education'),
-('Travel');
+('Travel'),
+('Finance'),
+('Lifestyle'),
+('Environment');
 
 -- 4. article
 INSERT INTO "article" (title, body, user_id) VALUES
 ('AI in 2025', 'A look into the future of AI.', 1),
-('Healthy Living Tips', 'Simple tips to stay healthy.', 2),
-('Quantum Physics Intro', 'Basics of quantum mechanics.', 3),
-('E-learning Platforms', 'Best tools for online learning.', 4),
-('Top Travel Spots', 'Explore amazing destinations.', 5);
+('Healthy Living Tips', 'Tips to stay healthy.', 2),
+('Quantum Physics', 'Quantum basics.', 3),
+('Online Learning', 'Best online tools.', 4),
+('Top Destinations', 'Amazing places.', 5),
+('Invest Smartly', 'Basics of investment.', 6),
+('Green Future', 'Sustainability trends.', 7),
+('Work-Life Balance', 'Tips for better life.', 8),
+('AI in Education', 'Using AI in learning.', 1),
+('Climate Action', 'Fighting climate change.', 3);
 
 -- 5. article_category
 INSERT INTO "article_category" (article_id, category_id) VALUES
-(1, 1),
-(1, 3),
+(1, 1), (1, 3),
 (2, 2),
 (3, 3),
-(4, 4),
-(4, 1),
-(5, 5);
+(4, 4), (4, 1),
+(5, 5),
+(6, 6),
+(7, 8), (7, 1),
+(8, 7), (8, 2),
+(9, 1), (9, 4),
+(10, 8), (10, 3);
 
 -- 6. comment
 INSERT INTO "comment" (body, user_id, article_id) VALUES
 ('Great article!', 2, 1),
 ('Very helpful.', 3, 2),
 ('Interesting topic.', 4, 3),
-('Thanks for sharing!', 5, 4),
-('Loved it!', 1, 5);
+('Thanks!', 5, 4),
+('Loved it!', 1, 5),
+('More details please.', 6, 1),
+('Awesome read.', 7, 1),
+('This helped a lot.', 8, 2),
+('Super insightful.', 1, 3),
+('Where can I learn more?', 2, 3),
+('Nice breakdown.', 3, 6),
+('I disagree.', 4, 6),
+('Important message.', 5, 10),
+('Cool!', 6, 9),
+('Following for more.', 7, 9),
+('Love this!', 8, 9),
+('Inspiring.', 1, 7);
 
--- 7. like
-INSERT INTO "like" (user_id, article_id) VALUES
+-- 7. article_like
+INSERT INTO "article_like" (user_id, article_id) VALUES
 (1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
+(2, 1),
+(3, 2),
+(4, 3),
+(5, 4),
+(6, 5),
+(7, 6),
+(8, 7),
+(1, 8),
+(2, 9),
+(3, 10),
+(4, 9),
+(5, 8),
+(6, 2),
+(7, 3),
+(8, 1);

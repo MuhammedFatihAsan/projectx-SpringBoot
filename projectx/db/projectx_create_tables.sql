@@ -35,7 +35,7 @@ CREATE TABLE "comment" (
     article_id INTEGER NOT NULL REFERENCES "article"(id)
 );
 
-CREATE TABLE "like" (
+CREATE TABLE "article_like" (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id INTEGER NOT NULL REFERENCES "user"(id),
     article_id INTEGER NOT NULL REFERENCES "article"(id),
