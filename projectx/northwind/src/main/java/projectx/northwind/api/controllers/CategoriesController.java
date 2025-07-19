@@ -1,13 +1,16 @@
 package projectx.northwind.api.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.CategoryService;
+import projectx.northwind.core.exceptions.types.category.CategoryAlreadyExistsException;
 import projectx.northwind.core.exceptions.types.category.CategoryNotFoundException;
 import projectx.northwind.core.exceptions.types.category.NoCategoryExistsException;
 import projectx.northwind.core.utilities.results.DataResult;
+import projectx.northwind.core.utilities.results.Result;
+import projectx.northwind.entities.dtos.requests.CreateCategoryRequestDto;
 import projectx.northwind.entities.dtos.responses.CategoryResponseDto;
 
 import java.util.List;
@@ -36,6 +39,14 @@ public class CategoriesController {
     public DataResult<CategoryResponseDto> findByTag(String tag) throws CategoryNotFoundException {
 
         return this.categoryService.findByTag(tag);
+    }
+
+    // =================== REQUEST METHODS ===================
+
+    @PostMapping("/add")
+    public ResponseEntity<Result> add(@Valid @RequestBody CreateCategoryRequestDto newCategory) throws CategoryAlreadyExistsException {
+
+        return ResponseEntity.ok(this.categoryService.add(newCategory));
     }
 
 }

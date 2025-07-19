@@ -22,7 +22,6 @@ public class CreateArticleRequestDto {
     private String body;
 
     @NotNull(message = "AuthorId cannot be NULL")
-    @NotBlank(message = "AuthorId cannot be blank")
     private int authorId;
 
 }

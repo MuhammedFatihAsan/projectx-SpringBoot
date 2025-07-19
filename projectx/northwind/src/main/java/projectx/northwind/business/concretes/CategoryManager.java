@@ -3,13 +3,17 @@ package projectx.northwind.business.concretes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projectx.northwind.business.abstracts.CategoryService;
+import projectx.northwind.core.exceptions.types.category.CategoryAlreadyExistsException;
 import projectx.northwind.core.exceptions.types.category.CategoryNotFoundException;
 import projectx.northwind.core.exceptions.types.category.NoCategoryExistsException;
 import projectx.northwind.core.mapping.CategoryMapper;
 import projectx.northwind.core.utilities.results.DataResult;
+import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
+import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.dataAccess.abstracts.CategoryDao;
 import projectx.northwind.entities.concretes.Category;
+import projectx.northwind.entities.dtos.requests.CreateCategoryRequestDto;
 import projectx.northwind.entities.dtos.responses.CategoryResponseDto;
 
 import java.util.ArrayList;
@@ -71,6 +75,22 @@ public class CategoryManager implements CategoryService {
         return new SuccessDataResult<CategoryResponseDto>(responseDto);
     }
 
+    // =================== REQUEST METHODS ===================
+
+    @Override
+    public Result add(CreateCategoryRequestDto newCategory) throws CategoryAlreadyExistsException {
+
+        checkCategoryAlreadyExists(newCategory.getCategoryName());
+
+        Category category = new Category();
+
+        category.setTag(newCategory.getCategoryName());
+
+        this.categoryDao.save(category);
+
+        return new SuccessResult("Category added!");
+    }
+
     // =================== BUSINESS RULE CHECKS ===================
 
     private void checkAnyCategoryExists() throws NoCategoryExistsException {
@@ -86,6 +106,14 @@ public class CategoryManager implements CategoryService {
         if(!categoryDao.existsByTag(categoryTag)){
 
             throw new CategoryNotFoundException("Not found : " + categoryTag);
+        }
+    }
+
+    private void checkCategoryAlreadyExists(String categoryName) throws CategoryAlreadyExistsException {
+
+        if(existsByTag(categoryName)){
+
+            throw new CategoryAlreadyExistsException("Category already exists!");
         }
     }
 

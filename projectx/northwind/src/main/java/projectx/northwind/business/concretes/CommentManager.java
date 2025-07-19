@@ -102,6 +102,8 @@ public class CommentManager implements CommentService {
         return new SuccessDataResult<CommentListByArticleDto>(CommentMapper.mapCommentListByArticleDto(comments, articleTitle));
     }
 
+    // =================== REQUEST METHODS ===================
+
     @Override
     public Result add(CreateCommentRequestDto newComment) throws UserNotFoundException, ArticleNotFoundException, CommentAlreadyExistsInThisArticleThisUserException {
 
