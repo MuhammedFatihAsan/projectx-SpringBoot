@@ -1,14 +1,12 @@
 package projectx.northwind.core.mapping;
 
-import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.concretes.Comment;
+import projectx.northwind.entities.dtos.responses.CommentListByArticleDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CommentMapper {
 
@@ -29,12 +27,30 @@ public class CommentMapper {
         CommentListByUserDto dto = new CommentListByUserDto();
 
         List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+
         for (Comment comment : comments) {
 
             commentResponseDtos.add(mapCommentResponseDto(comment));
         }
 
         dto.setUserName(userName);
+        dto.setCommentsDto(commentResponseDtos);
+
+        return dto;
+    }
+
+    public static CommentListByArticleDto mapCommentListByArticleDto(List<Comment> comments, String articleTitle) {
+
+        CommentListByArticleDto dto = new CommentListByArticleDto();
+
+        List<CommentResponseDto> commentResponseDtos = new ArrayList<>();
+
+        for (Comment comment : comments) {
+
+            commentResponseDtos.add(mapCommentResponseDto(comment));
+        }
+
+        dto.setArticleTitle(articleTitle);
         dto.setCommentsDto(commentResponseDtos);
 
         return dto;

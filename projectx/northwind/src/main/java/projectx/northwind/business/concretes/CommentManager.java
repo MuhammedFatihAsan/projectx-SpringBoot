@@ -19,6 +19,7 @@ import projectx.northwind.dataAccess.abstracts.CommentDao;
 import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.concretes.Comment;
 import projectx.northwind.entities.dtos.requests.CreateCommentRequestDto;
+import projectx.northwind.entities.dtos.responses.CommentListByArticleDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
 
@@ -82,9 +83,23 @@ public class CommentManager implements CommentService {
 
         List<Comment> comments = this.commentDao.getAllByCommentUser_Id(userId);
 
-        checkListIsEmpty(comments, userName);
+        checkListIsEmpty(comments, this.userService.findById(userId).getName());
 
         return new SuccessDataResult<CommentListByUserDto>(CommentMapper.mapCommentListByUserDto(comments, userName));
+    }
+
+    @Override
+    public DataResult<CommentListByArticleDto> getAllByCommentArticle_Id(Integer articleId) throws ArticleNotFoundException, EmptyListException {
+
+        checkArticleExistsById(articleId);
+
+        String articleTitle = this.articleService.findById(articleId).getTitle();
+
+        List<Comment> comments = this.commentDao.getAllByCommentArticle_Id(articleId);
+
+        checkListIsEmpty(comments, articleTitle);
+
+        return new SuccessDataResult<CommentListByArticleDto>(CommentMapper.mapCommentListByArticleDto(comments, articleTitle));
     }
 
     @Override
@@ -123,11 +138,11 @@ public class CommentManager implements CommentService {
         }
     }
 
-    private void checkListIsEmpty(List<Comment> comments, String userName) throws EmptyListException {
+    private void checkListIsEmpty(List<Comment> comments, String message) throws EmptyListException {
 
         if(comments.isEmpty()){
 
-            throw new EmptyListException("Comment list is empty for userName: " + userName);
+            throw new EmptyListException("Comment list is empty for : " + message);
         }
     }
 

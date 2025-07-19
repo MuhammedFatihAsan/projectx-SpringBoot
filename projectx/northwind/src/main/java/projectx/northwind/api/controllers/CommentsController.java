@@ -13,6 +13,7 @@ import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreateCommentRequestDto;
+import projectx.northwind.entities.dtos.responses.CommentListByArticleDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
 
@@ -42,6 +43,12 @@ public class CommentsController {
     public DataResult<CommentListByUserDto> getAllByCommentUser_Id(Integer userId) throws UserNotFoundException, EmptyListException {
 
         return this.commentService.getAllByCommentUser_Id(userId);
+    }
+
+    @GetMapping("/getAllByCommentArticle_Id")
+    public DataResult<CommentListByArticleDto> getAllByCommentArticle_Id(Integer articleId) throws ArticleNotFoundException, EmptyListException {
+
+        return this.commentService.getAllByCommentArticle_Id(articleId);
     }
 
     // =================== REQUEST METHODS ===================

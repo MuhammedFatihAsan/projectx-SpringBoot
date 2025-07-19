@@ -8,6 +8,7 @@ import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreateCommentRequestDto;
+import projectx.northwind.entities.dtos.responses.CommentListByArticleDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
 
@@ -26,6 +27,8 @@ public interface CommentService {
     DataResult<List<CommentResponseDto>> getAll() throws NoCommentsExistsException;
 
     DataResult<CommentListByUserDto> getAllByCommentUser_Id(Integer userId) throws UserNotFoundException, EmptyListException;
+
+    DataResult<CommentListByArticleDto> getAllByCommentArticle_Id(Integer articleId) throws ArticleNotFoundException, EmptyListException;
 
     // =================== REQUEST METHODS ===================
 
