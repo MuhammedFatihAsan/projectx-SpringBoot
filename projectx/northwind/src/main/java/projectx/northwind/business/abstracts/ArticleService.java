@@ -9,6 +9,7 @@ import projectx.northwind.core.exceptions.types.user.NoUsersExistsException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
+import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
@@ -22,6 +23,10 @@ public interface ArticleService {
     boolean existsByTitle(String title);
 
     boolean existsBy();
+
+    boolean existsById(int articleId);
+
+    Article findById(int articleId);
 
     // =================== RESPONSE METHODS ===================
 

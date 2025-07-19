@@ -57,6 +57,18 @@ public class ArticleManager implements ArticleService {
         return this.articleDao.existsBy();
     }
 
+    @Override
+    public boolean existsById(int articleId) {
+
+        return this.articleDao.existsById(articleId);
+    }
+
+    @Override
+    public Article findById(int articleId) {
+
+        return this.articleDao.findById(articleId);
+    }
+
     // =================== RESPONSE METHODS ===================
     // (Data exporting, DTO returning operations)
 

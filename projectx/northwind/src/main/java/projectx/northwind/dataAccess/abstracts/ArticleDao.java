@@ -16,6 +16,10 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
 
     boolean existsBy();
 
+    boolean existsById(int articleId);
+
+    Article findById(int articleId);
+
     // =================== RESPONSE METHODS ===================
 
     Article getByTitle(String title);

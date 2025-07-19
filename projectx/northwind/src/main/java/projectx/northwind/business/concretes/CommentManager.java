@@ -2,16 +2,23 @@ package projectx.northwind.business.concretes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.business.abstracts.CommentService;
 import projectx.northwind.business.abstracts.UserService;
+import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
+import projectx.northwind.core.exceptions.types.comment.CommentAlreadyExistsInThisArticleThisUserException;
 import projectx.northwind.core.exceptions.types.comment.NoCommentsExistsException;
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.mapping.CommentMapper;
 import projectx.northwind.core.utilities.results.DataResult;
+import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.core.utilities.results.SuccessDataResult;
+import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.dataAccess.abstracts.CommentDao;
+import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.concretes.Comment;
+import projectx.northwind.entities.dtos.requests.CreateCommentRequestDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
 
@@ -23,12 +30,14 @@ public class CommentManager implements CommentService {
 
     private final CommentDao commentDao;
     private final UserService userService;
+    private final ArticleService articleService;
 
     @Autowired
-    public CommentManager(CommentDao commentDao,  UserService userService) {
+    public CommentManager(CommentDao commentDao,  UserService userService,  ArticleService articleService) {
 
         this.commentDao = commentDao;
         this.userService = userService;
+        this.articleService = articleService;
     }
 
     // =================== INTERNAL METHODS ===================
@@ -78,6 +87,24 @@ public class CommentManager implements CommentService {
         return new SuccessDataResult<CommentListByUserDto>(CommentMapper.mapCommentListByUserDto(comments, userName));
     }
 
+    @Override
+    public Result add(CreateCommentRequestDto newComment) throws UserNotFoundException, ArticleNotFoundException, CommentAlreadyExistsInThisArticleThisUserException {
+
+        checkUserExistsById(newComment.getUserId());
+        checkArticleExistsById(newComment.getArticleId());
+        checkAlreadyExistsInThisArticle(newComment.getCommentBody(), newComment.getUserId(), newComment.getArticleId());
+
+        Comment comment = new Comment();
+
+        comment.setBody(newComment.getCommentBody());
+        comment.setCommentUser(this.userService.findById(newComment.getUserId()));
+        comment.setCommentArticle(this.articleService.findById(newComment.getArticleId()));
+
+        this.commentDao.save(comment);
+
+        return new SuccessResult("Comment added!");
+    }
+
     // =================== BUSINESS RULE CHECKS ===================
 
     private void checkAnyCommentExists() throws NoCommentsExistsException {
@@ -101,6 +128,29 @@ public class CommentManager implements CommentService {
         if(comments.isEmpty()){
 
             throw new EmptyListException("Comment list is empty for userName: " + userName);
+        }
+    }
+
+    private void checkArticleExistsById(int articleId) throws ArticleNotFoundException {
+
+        if(!this.articleService.existsById(articleId)){
+
+            throw new ArticleNotFoundException(articleId + " : that article id not found!");
+        }
+    }
+
+    private void checkAlreadyExistsInThisArticle(String commentBody, int userId, int articleId) throws CommentAlreadyExistsInThisArticleThisUserException {
+
+        Article article = this.articleService.findById(articleId);
+
+        List<Comment> comments = article.getComments();
+
+        for(Comment comment : comments){
+
+            if(comment.getBody().equals(commentBody) && comment.getCommentUser().getId() == userId){
+
+                throw new CommentAlreadyExistsInThisArticleThisUserException("The comment was made by the same user on the same article!");
+            }
         }
     }
 

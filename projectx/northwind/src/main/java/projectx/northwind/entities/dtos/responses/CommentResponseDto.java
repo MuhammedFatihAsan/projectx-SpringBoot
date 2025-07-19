@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentResponseDto {
 
-    private int id;
-    private String body;
+    private int commentId;
+    private String commentBody;
     private String userName;
     private String articleTitle;
 
