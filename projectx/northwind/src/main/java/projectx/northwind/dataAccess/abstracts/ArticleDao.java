@@ -10,7 +10,6 @@ import java.util.List;
 public interface ArticleDao extends JpaRepository<Article, Integer> {
 
     // =================== INTERNAL METHODS ===================
-    // (Only used within the system, not exposed via endpoint)
 
     boolean existsByTitle(String title);
 

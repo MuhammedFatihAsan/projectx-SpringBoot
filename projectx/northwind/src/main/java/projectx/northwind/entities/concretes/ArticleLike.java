@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import projectx.northwind.core.entities.User;
 
 @Entity
-@Table(name = "article_like")
+@Table(name = "article_like", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "article_id"}))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

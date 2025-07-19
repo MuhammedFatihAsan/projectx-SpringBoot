@@ -43,7 +43,6 @@ public class ArticleManager implements ArticleService {
     }
 
     // =================== INTERNAL METHODS ===================
-    // (Only used within the system, not exposed via endpoint)
 
     @Override
     public boolean existsByTitle(String title) {
@@ -70,7 +69,6 @@ public class ArticleManager implements ArticleService {
     }
 
     // =================== RESPONSE METHODS ===================
-    // (Data exporting, DTO returning operations)
 
     @Override
     public DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException {
