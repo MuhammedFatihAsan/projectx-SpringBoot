@@ -9,7 +9,6 @@ import projectx.northwind.core.exceptions.types.comment.NoCommentsExistsExceptio
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
-import projectx.northwind.core.utilities.results.SuccessDataResult;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
 
