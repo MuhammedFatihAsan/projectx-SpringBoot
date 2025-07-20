@@ -22,8 +22,10 @@ public interface UserService {
 
     // =================== RESPONSE METHODS ===================
 
-    DataResult<UserResponseDto> findByName(String name) throws UserNotFoundException;
-
     DataResult<List<UserResponseDto>> getAll() throws NoUsersExistsException;
+
+    DataResult<UserResponseDto> getById(int userId) throws UserNotFoundException;
+
+    DataResult<UserResponseDto> getByName(String userName) throws UserNotFoundException;
 
 }

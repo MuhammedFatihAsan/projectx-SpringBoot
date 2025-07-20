@@ -75,7 +75,24 @@ INSERT INTO "comment" (body, user_id, article_id) VALUES
 ('Cool!', 6, 9),
 ('Following for more.', 7, 9),
 ('Love this!', 8, 9),
-('Inspiring.', 1, 7);
+('Inspiring.', 1, 7),
+('I am looking forward to more details on this topic.', 2, 1),
+('Really thought-provoking read.', 3, 2),
+('It was a pleasure to read this.', 4, 3),
+('You have shared a fresh perspective.', 5, 4),
+('Learned something new today, thanks!', 1, 5),
+('Could you add more examples next time?', 6, 1),
+('Very clear explanation, well done.', 7, 1),
+('This really cleared things up for me.', 8, 2),
+('Never looked at it this way before, thank you.', 1, 3),
+('Kept me interested from start to finish.', 2, 3),
+('Concise and informative.', 3, 6),
+('I donnt agree, but I respect your point.', 4, 6),
+('Everyone should read this.', 5, 10),
+('Thanks for sharing your insights.', 6, 9),
+('Looking forward to your next post.', 7, 9),
+('You wrote this beautifully.', 8, 9),
+('This really spoke to me.', 1, 7);
 
 -- 7. article_like
 INSERT INTO "article_like" (user_id, article_id) VALUES

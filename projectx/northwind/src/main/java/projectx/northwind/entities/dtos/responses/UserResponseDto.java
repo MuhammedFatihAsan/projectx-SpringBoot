@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class UserResponseDto {
     private String userName;
     private int passportId;
     private List<String> articleTitlesWritten;
-    private List<String> commentsWritten;
+    private Map<String, List<String>> commentsWritten;
     private List<String> likedArticleTitles;
 
 }

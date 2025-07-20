@@ -54,7 +54,9 @@ public class ArticleMapper {
         dto.setBody(article.getBody());
         dto.setAuthor(article.getArticleUser().getName());
         dto.setTags(extractCategoryTags(article));
+        dto.setCommentCount(article.getComments().size());
         dto.setComments(extractCommentsWritten(article));
+        dto.setLikeCount(article.getArticleLikes().size());
         dto.setLikedUserNames(extractLikedUserNames(article));
 
         return dto;

@@ -26,18 +26,23 @@ public class UsersController {
     }
 
     // =================== RESPONSE METHODS ===================
-    // (Data exporting, DTO returning operations)
-
-    @GetMapping("/findByName")
-    public DataResult<UserResponseDto> findByName(@RequestParam String name) throws UserNotFoundException {
-
-        return this.userService.findByName(name);
-    }
 
     @GetMapping("/getAll")
     public DataResult<List<UserResponseDto>> getAll() throws NoUsersExistsException {
 
         return this.userService.getAll();
+    }
+
+    @GetMapping("/getById")
+    public DataResult<UserResponseDto> getById(int userId) throws UserNotFoundException {
+
+        return this.userService.getById(userId);
+    }
+
+    @GetMapping("/getByName")
+    public DataResult<UserResponseDto> getByName(@RequestParam String name) throws UserNotFoundException {
+
+        return this.userService.getByName(name);
     }
 
 }

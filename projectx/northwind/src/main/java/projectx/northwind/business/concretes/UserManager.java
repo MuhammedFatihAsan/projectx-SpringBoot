@@ -55,16 +55,6 @@ public class UserManager implements UserService {
     // =================== RESPONSE METHODS ===================
 
     @Override
-    public DataResult<UserResponseDto> findByName(String name) throws UserNotFoundException {
-
-        checkArticleExistsByName(name);
-
-        User user = this.userDao.findByName(name);
-
-        return new SuccessDataResult<UserResponseDto>(UserMapper.mapUserResponseDto(user));
-    }
-
-    @Override
     public DataResult<List<UserResponseDto>> getAll() throws NoUsersExistsException {
 
         checkAnyUserExists();
@@ -81,21 +71,49 @@ public class UserManager implements UserService {
         return new SuccessDataResult<List<UserResponseDto>>(responseDtoList);
     }
 
-    // =================== BUSINESS RULE CHECKS ===================
+    @Override
+    public DataResult<UserResponseDto> getById(int userId) throws UserNotFoundException {
 
-    private void checkArticleExistsByName(String name) throws UserNotFoundException {
+        checkUserExistsById(userId);
 
-        if(!existsByName(name)){
+        User user = this.userDao.findById(userId);
 
-            throw new UserNotFoundException(name + " : Not Found!");
-        }
+        return new SuccessDataResult<UserResponseDto>(UserMapper.mapUserResponseDto(user));
     }
+
+    @Override
+    public DataResult<UserResponseDto> getByName(String userName) throws UserNotFoundException {
+
+        checkUserExistsByName(userName);
+
+        User user = this.userDao.findByName(userName);
+
+        return new SuccessDataResult<UserResponseDto>(UserMapper.mapUserResponseDto(user));
+    }
+
+    // =================== BUSINESS RULE CHECKS ===================
 
     private void checkAnyUserExists() throws NoUsersExistsException {
 
         if(!existsBy()){
 
             throw new NoUsersExistsException("No passport are registered!");
+        }
+    }
+
+    private void checkUserExistsById(int userId) throws UserNotFoundException {
+
+        if(!existsById(userId)){
+
+            throw new UserNotFoundException(userId + " : User Id Not Found!");
+        }
+    }
+
+    private void checkUserExistsByName(String name) throws UserNotFoundException {
+
+        if(!existsByName(name)){
+
+            throw new UserNotFoundException(name + " : User Name Not Found!");
         }
     }
 

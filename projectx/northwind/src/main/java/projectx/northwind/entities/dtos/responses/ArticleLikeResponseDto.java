@@ -3,20 +3,15 @@ package projectx.northwind.entities.dtos.responses;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleResponseDto {
+public class ArticleLikeResponseDto {
 
-    private int articleId;
-    private String title;
-    private String body;
-    private String author;
-    private List<String> tags;
-    private int commentCount;
-    private List<String> comments;
+    private String articleTitle;
     private int likeCount;
     private List<String> likedUserNames;
 

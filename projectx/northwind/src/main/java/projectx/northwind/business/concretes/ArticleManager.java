@@ -68,6 +68,14 @@ public class ArticleManager implements ArticleService {
         return this.articleDao.findById(articleId);
     }
 
+    @Override
+    public List<Article> getAllArticles() throws NoArticlesExistException {
+
+        checkAnyArticleExists();
+
+        return this.articleDao.findAll();
+    }
+
     // =================== RESPONSE METHODS ===================
 
     @Override

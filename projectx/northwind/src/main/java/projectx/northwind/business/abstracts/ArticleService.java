@@ -28,6 +28,8 @@ public interface ArticleService {
 
     Article findById(int articleId);
 
+    List<Article> getAllArticles() throws NoArticlesExistException;
+
     // =================== RESPONSE METHODS ===================
 
     DataResult<List<ArticleResponseDto>> getAll() throws NoArticlesExistException;
