@@ -11,8 +11,10 @@ public interface CategoryDao extends JpaRepository<Category, Integer> {
 
     boolean existsBy();
 
-    // =================== RESPONSE METHODS ===================
+    boolean existsById(int categoryId);
 
     Category findByTag(String tag);
+
+    Category findById(int id);
 
 }

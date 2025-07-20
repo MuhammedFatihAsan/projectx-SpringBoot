@@ -44,6 +44,18 @@ public class CategoryManager implements CategoryService {
         return this.categoryDao.existsBy();
     }
 
+    @Override
+    public boolean existsById(int categoryId) {
+
+        return this.categoryDao.existsById(categoryId);
+    }
+
+    @Override
+    public Category findById(int id) {
+
+        return this.categoryDao.findById(id);
+    }
+
     // =================== RESPONSE METHODS ===================
 
     @Override
