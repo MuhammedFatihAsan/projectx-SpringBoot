@@ -14,7 +14,7 @@ Bu doküman, yalnızca uygulamanın backend bileşenlerini (REST API servislerin
 
 * **DTO:** Data Transfer Object
 
-* **DTO:** Data Access Object
+* **DAO:** Data Access Object
 
 * **CRU:** Create, Read, Update
 
