@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface ArticleDao extends JpaRepository<Article, Integer> {
 
-    // =================== INTERNAL METHODS ===================
-
     boolean existsByTitle(String title);
 
     boolean existsBy();
@@ -18,8 +16,6 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
     boolean existsById(int articleId);
 
     Article findById(int articleId);
-
-    // =================== RESPONSE METHODS ===================
 
     Article getByTitle(String title);
 

@@ -22,6 +22,8 @@ import projectx.northwind.core.utilities.results.SuccessResult;
 import projectx.northwind.dataAccess.abstracts.ArticleDao;
 import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateArticleContentRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateArticleTitleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
@@ -165,6 +167,16 @@ public class ArticleManager implements ArticleService {
     }
 
     @Override
+    public DataResult<ArticleResponseDto> getById(int articleId) throws ArticleNotFoundException {
+
+        checkArticleExistsById(articleId);
+
+        Article article = this.articleDao.findById(articleId);
+
+        return new SuccessDataResult<ArticleResponseDto>(ArticleMapper.mapArticleResponseDto(article), "Data listed by id");
+    }
+
+    @Override
     public DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(String title, int user_id) throws ArticleNotFoundException, UserNotFoundException {
 
         checkArticleExistsByTitle(title);
@@ -295,6 +307,35 @@ public class ArticleManager implements ArticleService {
 
     }
 
+    @Override
+    public Result updateArticleContent(UpdateArticleContentRequestDto updateArticleContentDto) throws ArticleNotFoundException {
+
+        checkArticleExistsById(updateArticleContentDto.getArticleId());
+
+        Article article = this.articleDao.findById(updateArticleContentDto.getArticleId());
+
+        article.setBody(updateArticleContentDto.getArticleContent());
+
+        this.articleDao.save(article);
+
+        return new SuccessResult("Article updated! Article ID: " + updateArticleContentDto.getArticleId());
+    }
+
+    @Override
+    public Result updateArticleTitle(UpdateArticleTitleRequestDto updateArticleTitleDto) throws ArticleNotFoundException, TitleAlreadyExistsException {
+
+        checkArticleExistsById(updateArticleTitleDto.getArticleId());
+        checkTitleAlreadyExists(updateArticleTitleDto.getArticleTitle());
+
+        Article article = this.articleDao.findById(updateArticleTitleDto.getArticleId());
+
+        article.setTitle(updateArticleTitleDto.getArticleTitle());
+
+        this.articleDao.save(article);
+
+        return new SuccessResult("Article updated! Article ID: " + updateArticleTitleDto.getArticleId());
+    }
+
     // =================== BUSINESS RULE CHECKS ===================
 
     private void checkAnyArticleExists() throws NoArticlesExistException {
@@ -359,9 +400,17 @@ public class ArticleManager implements ArticleService {
 
     private void checkTitleAlreadyExists(String title) throws TitleAlreadyExistsException {
 
-        if(!existsByTitle(title)){
+        if(existsByTitle(title)){
 
-            throw new TitleAlreadyExistsException("The title of the article you want to add has already been used! It has not been added!");
+            throw new TitleAlreadyExistsException("The title of the article you want to add has already been used!");
+        }
+    }
+
+    private void checkArticleExistsById(Integer articleId) throws ArticleNotFoundException {
+
+        if(!this.articleDao.existsById(articleId)){
+
+            throw new ArticleNotFoundException(articleId + " : this Id not exists in articles!");
         }
     }
 

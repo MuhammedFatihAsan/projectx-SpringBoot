@@ -11,6 +11,8 @@ import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateArticleContentRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateArticleTitleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
@@ -42,6 +44,8 @@ public interface ArticleService {
 
     DataResult<ArticleResponseDto> getByTitle(String title) throws ArticleNotFoundException;
 
+    DataResult<ArticleResponseDto> getById(int articleId) throws ArticleNotFoundException;
+
     DataResult<ArticleResponseDto> getByTitleAndArticleUser_Id(String title, int user_id) throws ArticleNotFoundException, UserNotFoundException;
 
     DataResult<List<ArticleResponseDto>> getByTitleOrArticleUser_Id(String title, int user_id) throws ArticleAndUserNotFoundException;
@@ -59,5 +63,9 @@ public interface ArticleService {
     // =================== REQUEST METHODS ===================
 
     Result add(CreateArticleRequestDto newArticle) throws UserNotFoundException, TitleAlreadyExistsException;
+
+    Result updateArticleContent(UpdateArticleContentRequestDto updateArticleContentDto) throws ArticleNotFoundException;
+
+    Result updateArticleTitle(UpdateArticleTitleRequestDto updateArticleTitleDto) throws ArticleNotFoundException, TitleAlreadyExistsException;
 
 }

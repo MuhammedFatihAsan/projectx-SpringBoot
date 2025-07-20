@@ -15,6 +15,8 @@ import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreateArticleRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateArticleContentRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateArticleTitleRequestDto;
 import projectx.northwind.entities.dtos.responses.ArticleResponseDto;
 import projectx.northwind.entities.dtos.responses.ArticleWithUserDto;
 
@@ -62,6 +64,12 @@ public class ArticlesController {
     public DataResult<ArticleResponseDto> getByTitle(@RequestParam String title) throws ArticleNotFoundException {
 
         return this.articleService.getByTitle(title);
+    }
+
+    @GetMapping("/getById")
+    public DataResult<ArticleResponseDto> getById(@RequestParam int articleId) throws ArticleNotFoundException {
+
+        return this.articleService.getById(articleId);
     }
 
     @GetMapping("getByTitleAndUser_Id")
@@ -112,6 +120,18 @@ public class ArticlesController {
     public ResponseEntity<Result> add(@Valid @RequestBody CreateArticleRequestDto newArticleRequest) throws UserNotFoundException, TitleAlreadyExistsException {
 
         return ResponseEntity.ok(this.articleService.add(newArticleRequest));
+    }
+
+    @PatchMapping("/updateArticleContent")
+    public ResponseEntity<Result> updateArticleContent(@Valid @RequestBody  UpdateArticleContentRequestDto updateArticleContentRequest) throws ArticleNotFoundException {
+
+        return ResponseEntity.ok(this.articleService.updateArticleContent(updateArticleContentRequest));
+    }
+
+    @PatchMapping("/updateArticleTitle")
+    public ResponseEntity<Result> updateArticleTitle(@Valid @RequestBody UpdateArticleTitleRequestDto updateArticleTitleRequest) throws ArticleNotFoundException, TitleAlreadyExistsException {
+
+        return ResponseEntity.ok(this.articleService.updateArticleTitle(updateArticleTitleRequest));
     }
 
 }
