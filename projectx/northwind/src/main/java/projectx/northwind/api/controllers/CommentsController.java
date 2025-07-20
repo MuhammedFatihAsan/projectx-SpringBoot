@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import projectx.northwind.business.abstracts.CommentService;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
 import projectx.northwind.core.exceptions.types.comment.CommentAlreadyExistsInThisArticleThisUserException;
+import projectx.northwind.core.exceptions.types.comment.CommentNotFoundException;
 import projectx.northwind.core.exceptions.types.comment.NoCommentsExistsException;
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
 import projectx.northwind.core.utilities.results.DataResult;
 import projectx.northwind.core.utilities.results.Result;
 import projectx.northwind.entities.dtos.requests.CreateCommentRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateCommentRequestDto;
 import projectx.northwind.entities.dtos.responses.CommentListByArticleDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
@@ -57,6 +59,12 @@ public class CommentsController {
     public ResponseEntity<Result> add(@Valid @RequestBody CreateCommentRequestDto newCommentRequest) throws UserNotFoundException, ArticleNotFoundException, CommentAlreadyExistsInThisArticleThisUserException {
 
         return ResponseEntity.ok(this.commentService.add(newCommentRequest));
+    }
+
+    @PutMapping("/updateComment")
+    public ResponseEntity<Result> updateComment(@Valid @RequestBody UpdateCommentRequestDto updateCommentRequest) throws CommentAlreadyExistsInThisArticleThisUserException, CommentNotFoundException {
+
+        return ResponseEntity.ok(this.commentService.updateComment(updateCommentRequest));
     }
 
 }

@@ -6,7 +6,9 @@ import projectx.northwind.business.abstracts.ArticleService;
 import projectx.northwind.business.abstracts.CommentService;
 import projectx.northwind.business.abstracts.UserService;
 import projectx.northwind.core.exceptions.types.article.ArticleNotFoundException;
+import projectx.northwind.core.exceptions.types.comment.CommentAlreadyExistsException;
 import projectx.northwind.core.exceptions.types.comment.CommentAlreadyExistsInThisArticleThisUserException;
+import projectx.northwind.core.exceptions.types.comment.CommentNotFoundException;
 import projectx.northwind.core.exceptions.types.comment.NoCommentsExistsException;
 import projectx.northwind.core.exceptions.types.common.EmptyListException;
 import projectx.northwind.core.exceptions.types.user.UserNotFoundException;
@@ -19,6 +21,7 @@ import projectx.northwind.dataAccess.abstracts.CommentDao;
 import projectx.northwind.entities.concretes.Article;
 import projectx.northwind.entities.concretes.Comment;
 import projectx.northwind.entities.dtos.requests.CreateCommentRequestDto;
+import projectx.northwind.entities.dtos.requests.UpdateCommentRequestDto;
 import projectx.northwind.entities.dtos.responses.CommentListByArticleDto;
 import projectx.northwind.entities.dtos.responses.CommentListByUserDto;
 import projectx.northwind.entities.dtos.responses.CommentResponseDto;
@@ -53,6 +56,12 @@ public class CommentManager implements CommentService {
     public boolean existsBy() {
 
         return this.commentDao.existsBy();
+    }
+
+    @Override
+    public boolean existsById(int commentId) {
+
+        return this.commentDao.existsById(commentId);
     }
 
     // =================== RESPONSE METHODS ===================
@@ -122,6 +131,24 @@ public class CommentManager implements CommentService {
         return new SuccessResult("Comment added!");
     }
 
+    @Override
+    public Result updateComment(UpdateCommentRequestDto updateCommentRequestDto) throws CommentNotFoundException, CommentAlreadyExistsInThisArticleThisUserException {
+
+        checkCommentExistsById(updateCommentRequestDto.getCommentId());
+
+        Comment comment = this.commentDao.findById(updateCommentRequestDto.getCommentId());
+
+        int commentUserId = comment.getCommentUser().getId();
+        int commentArticleId = comment.getCommentArticle().getId();
+        checkAlreadyExistsInThisArticle(updateCommentRequestDto.getCommentBody(), commentUserId, commentArticleId);
+
+        comment.setBody(updateCommentRequestDto.getCommentBody());
+
+        this.commentDao.save(comment);
+
+        return new SuccessResult("Comment updated! commentId: " + comment.getId());
+    }
+
     // =================== BUSINESS RULE CHECKS ===================
 
     private void checkAnyCommentExists() throws NoCommentsExistsException {
@@ -168,6 +195,14 @@ public class CommentManager implements CommentService {
 
                 throw new CommentAlreadyExistsInThisArticleThisUserException("The comment was made by the same user on the same article!");
             }
+        }
+    }
+
+    private void checkCommentExistsById(int commentId) throws CommentNotFoundException {
+
+        if(!existsById(commentId)){
+
+            throw new CommentNotFoundException(commentId + " : that comment id not found!");
         }
     }
 

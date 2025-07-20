@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface CommentDao extends JpaRepository<Comment, Integer> {
 
-    // =================== INTERNAL METHODS ===================
-
     boolean existsByBody(String body);
 
     boolean existsBy();
 
-    // =================== RESPONSE METHODS ===================
+    boolean existsById(int commentId);
+
+    Comment findById(int commentId);
 
     List<Comment> getAllByCommentUser_Id(Integer userId);
 
