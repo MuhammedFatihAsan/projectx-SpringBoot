@@ -159,9 +159,6 @@ Veritabanı işlemlerinde oluşabilecek hatalar durumunda ilişkili kayıtların
   
 
 
-  
-
-
 * Swagger UI ekran görüntüleri
 
 \~\~\~\~\~\~\~
